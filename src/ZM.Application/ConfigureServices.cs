@@ -5,7 +5,7 @@ namespace ZM.Application;
 
 public static class ConfigureServices
 {
-    public static IServiceCollection AddApplicationServices(this IServiceCollection services)
+    public static IServiceCollection AddApplication(this IServiceCollection services)
     {
         services.AddMediatR(cfg =>
         {

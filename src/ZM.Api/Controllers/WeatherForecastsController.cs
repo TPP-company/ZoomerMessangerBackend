@@ -1,4 +1,4 @@
-using Template.Application.UseCases.WeatherForecasts.GetWeatherForecasts;
+using ZM.Application.UseCases.WeatherForecasts.GetWeatherForecasts;
 using Microsoft.AspNetCore.Mvc;
 using ZM.Domain.Entities;
 
