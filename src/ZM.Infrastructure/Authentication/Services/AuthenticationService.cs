@@ -8,25 +8,24 @@ namespace ZM.Infrastructure.Authentication.Services;
 /// <summary>
 /// <inheritdoc cref="IAuthenticationService"/>
 /// </summary>
-public class AuthenticationService(UserManager<AuthUser> _userManager, IJwtTokenService _jwtTokenService) 
+public class AuthenticationService(
+    UserManager<AuthUser> _userManager,
+    IJwtTokenService _jwtTokenService) 
     : IAuthenticationService
 {
-    public async Task<Result<TokenDto, SignInError>> SignIn(SignInRequest request)
+    public async Task<Result<TokenDto>> SignInAsync(SignInRequest request)
     {
         var user = await _userManager.FindByNameAsync(request.Username);
 
         var isSignInInvalid = user is null || !await _userManager.CheckPasswordAsync(user, request.Password);
 
         if (isSignInInvalid)
-            return Result<TokenDto, SignInError>.Fail(new SignInError("Ошибочка") 
-            { 
-                SignInErrorType = SignInErrorType.Invalid 
-            });
+            return Result<TokenDto>.Fail("Authentication.SignIn");
 
         return _jwtTokenService.Generate(user!);
     }
 
-    public async Task<Result<ResultDataEmpty>> SignUp(SignUpRequest request)
+    public async Task<Result<ResultDataEmpty>> SignUpAsync(SignUpRequest request)
     {
         var user = new AuthUser()
         {
@@ -40,36 +39,4 @@ public class AuthenticationService(UserManager<AuthUser> _userManager, IJwtToken
 
         return ResultDataEmpty.Value;
     }
-}
-
-public class SignInError : Error
-{
-    public SignInError()
-    {
-        
-    }
-
-    public SignInError(string code) : base(code)
-    {
-    }
-
-    public SignInError(string code, string? description) : base(code, description)
-    {
-    }
-
-    public SignInError(string code, Dictionary<string, string[]> reason) : base(code, reason)
-    {
-    }
-
-    public SignInError(string code, string? description, Dictionary<string, string[]> reason) : base(code, description, reason)
-    {
-    }
-
-    public SignInErrorType SignInErrorType { get; set; }
-}
-
-public enum SignInErrorType
-{
-    None = 0,
-    Invalid
 }

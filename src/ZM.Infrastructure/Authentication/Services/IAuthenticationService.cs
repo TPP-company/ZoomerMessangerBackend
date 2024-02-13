@@ -12,11 +12,11 @@ public interface IAuthenticationService
     /// Выполнить вход.
     /// </summary>
     /// <param name="request">Информация для входа.</param>
-    Task<Result<TokenDto, SignInError>> SignIn(SignInRequest request);
+    Task<Result<TokenDto>> SignInAsync(SignInRequest request);
 
     /// <summary>
     /// Зарегистрироваться.
     /// </summary>
     /// <param name="request">Информация для регистрации.</param>
-    Task<Result<ResultDataEmpty>> SignUp(SignUpRequest request);
+    Task<Result<ResultDataEmpty>> SignUpAsync(SignUpRequest request);
 }

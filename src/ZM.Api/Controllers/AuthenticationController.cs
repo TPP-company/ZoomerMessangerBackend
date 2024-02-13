@@ -19,15 +19,9 @@ public class AuthenticationController(IAuthenticationService _authenticationServ
     [HttpPost("sign-in")]
     public async Task<ActionResult<Result<TokenDto>>> SignInAsync(SignInRequest request)
     {
-        var result = await _authenticationService.SignIn(request);
+        var result = await _authenticationService.SignInAsync(request);
 
-        return result.IsFailure ? 
-            result.Error!.SignInErrorType switch
-            {
-                SignInErrorType.Invalid => BadRequest(result.Error),
-                _ => BadRequest()
-            } :
-            Result<TokenDto>.Success(result.Data!);
+        return result.IsFailure ? BadRequest(result.Error) : Ok();
     }
 
     /// <summary>
@@ -37,7 +31,7 @@ public class AuthenticationController(IAuthenticationService _authenticationServ
     [HttpPost("sign-up")]
     public async Task<ActionResult<Result<ResultDataEmpty>>> SignUpAsync(SignUpRequest request)
     {
-        var result = await _authenticationService.SignUp(request);
+        var result = await _authenticationService.SignUpAsync(request);
 
         return result.IsFailure ? BadRequest(result.Error) : Ok();
     }

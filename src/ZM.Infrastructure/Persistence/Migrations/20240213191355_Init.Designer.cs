@@ -9,7 +9,7 @@ using ZM.Infrastructure.Persistence;
 
 #nullable disable
 
-namespace ZM.Infrastructure.Migrations
+namespace ZM.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
     [Migration("20240213191355_Init")]

@@ -19,6 +19,6 @@ public static class ConfigureServices
 
         services.AddScoped<IAuthenticationService, AuthenticationService>();    
         services.AddScoped<IJwtTokenService, JwtTokenService>();
-        services.AddScoped<ICurrentUserService, CurrentUserService>();
+        services.AddScoped<ICurrentUser, CurrentUser>();
     }
 }
