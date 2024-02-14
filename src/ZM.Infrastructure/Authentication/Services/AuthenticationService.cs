@@ -10,7 +10,7 @@ namespace ZM.Infrastructure.Authentication.Services;
 /// </summary>
 public class AuthenticationService(
     UserManager<AuthUser> _userManager,
-    IJwtTokenService _jwtTokenService) 
+    ITokenService _jwtTokenService) 
     : IAuthenticationService
 {
     public async Task<Result<TokenDto>> SignInAsync(SignInRequest request)

@@ -3,9 +3,9 @@
 namespace ZM.Infrastructure.Authentication.Token;
 
 /// <summary>
-/// Сервис JWT токена.
+/// Сервис токена.
 /// </summary>
-public interface IJwtTokenService
+public interface ITokenService
 {
     /// <summary>
     /// Сгенерировать.

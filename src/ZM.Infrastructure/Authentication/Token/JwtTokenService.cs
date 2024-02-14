@@ -6,8 +6,10 @@ using ZM.Infrastructure.Authentication.Entities;
 
 namespace ZM.Infrastructure.Authentication.Token;
 
-/// <inheritdoc cref="IJwtTokenService"/>
-public class JwtTokenService : IJwtTokenService
+/// <summary>
+/// Сервис JWT токена.
+/// </summary>
+public class JwtTokenService : ITokenService
 {
     public TokenDto Generate(AuthUser authUser)
     {

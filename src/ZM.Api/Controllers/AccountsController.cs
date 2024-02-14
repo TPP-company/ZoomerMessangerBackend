@@ -6,11 +6,11 @@ using ZM.Infrastructure.Authentication.Token;
 namespace ZM.Api.Controllers;
 
 /// <summary>
-/// Апи аутентификации.
+/// Апи аккаунта.
 /// </summary>
 [ApiController]
-[Route("authentication")]
-public class AuthenticationController(IAuthenticationService _authenticationService) : ApiControllerBase
+[Route("accounts")]
+public class AccountsController(IAuthenticationService _authenticationService) : ApiControllerBase
 {
     /// <summary>
     /// Выполнить вход.
@@ -21,7 +21,7 @@ public class AuthenticationController(IAuthenticationService _authenticationServ
     {
         var result = await _authenticationService.SignInAsync(request);
 
-        return result.IsFailure ? BadRequest(result.Error) : Ok();
+        return result.IsFailure ? BadRequest(result.Error) : Ok(result.Data);
     }
 
     /// <summary>
