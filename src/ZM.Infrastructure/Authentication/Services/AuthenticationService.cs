@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using ZM.Application.Common.Results;
+using ZM.Common.Results;
 using ZM.Infrastructure.Authentication.Entities;
 using ZM.Infrastructure.Authentication.Token;
 
@@ -8,10 +8,9 @@ namespace ZM.Infrastructure.Authentication.Services;
 /// <summary>
 /// <inheritdoc cref="IAuthenticationService"/>
 /// </summary>
-public class AuthenticationService(
+internal class AuthenticationService(
     UserManager<AuthUser> _userManager,
-    ITokenService _jwtTokenService) 
-    : IAuthenticationService
+    ITokenService _jwtTokenService) : IAuthenticationService
 {
     public async Task<Result<TokenDto>> SignInAsync(SignInRequest request)
     {

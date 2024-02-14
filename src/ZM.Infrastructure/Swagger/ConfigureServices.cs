@@ -7,7 +7,7 @@ namespace ZM.Infrastructure.Swagger;
 public static class ConfigureServices
 {
     /// <summary>
-    /// Добавить инфраструктуру.
+    /// Сконфигурировать Swagger.
     /// </summary>
     public static IServiceCollection ConfigureSwagger(this IServiceCollection services, IConfiguration configuration)
     {

@@ -1,9 +1,9 @@
-﻿namespace ZM.Application.Common.Results;
+﻿namespace ZM.Common.Results;
 
 /// <summary>
 /// Пустой результат.
 /// </summary>
-public readonly struct ResultDataEmpty 
+public readonly struct ResultDataEmpty
 {
     public static readonly ResultDataEmpty Value = default;
 }

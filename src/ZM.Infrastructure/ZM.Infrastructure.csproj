@@ -32,6 +32,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ZM.Application\ZM.Application.csproj" />
+    <ProjectReference Include="..\ZM.Common\ZM.Common.csproj" />
   </ItemGroup>
 
 </Project>

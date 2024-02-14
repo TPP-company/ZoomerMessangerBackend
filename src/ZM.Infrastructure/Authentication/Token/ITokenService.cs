@@ -5,7 +5,7 @@ namespace ZM.Infrastructure.Authentication.Token;
 /// <summary>
 /// Сервис токена.
 /// </summary>
-public interface ITokenService
+internal interface ITokenService
 {
     /// <summary>
     /// Сгенерировать.

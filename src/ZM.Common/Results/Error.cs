@@ -1,4 +1,4 @@
-﻿namespace ZM.Application.Common.Results;
+﻿namespace ZM.Common.Results;
 
 /// <summary>
 /// Информация о ошибке.
@@ -20,7 +20,7 @@ public class Error : IError
         : this(code, description: null, reason)
     { }
 
-    public Error(string code, string? description, Dictionary<string, string[]> reason) 
+    public Error(string code, string? description, Dictionary<string, string[]> reason)
     {
         Code = code;
         Description = description;

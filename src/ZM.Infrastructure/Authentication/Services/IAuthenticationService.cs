@@ -1,4 +1,4 @@
-﻿using ZM.Application.Common.Results;
+﻿using ZM.Common.Results;
 using ZM.Infrastructure.Authentication.Token;
 
 namespace ZM.Infrastructure.Authentication.Services;

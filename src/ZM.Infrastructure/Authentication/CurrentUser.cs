@@ -15,9 +15,9 @@ internal class CurrentUser : ICurrentUser
         if (httpContext is null)
             return;
 
-        Id = httpContext.User.FindFirst("id") is null ? 
+        Id = httpContext.User.FindFirst(KnownClaims.Id) is null ? 
             UnknownId : 
-            Guid.Parse(httpContext.User.FindFirst("id")!.Value);
+            Guid.Parse(httpContext.User.FindFirst(KnownClaims.Id)!.Value);
 
         if (Id != UnknownId)
             IsUnknown = false;

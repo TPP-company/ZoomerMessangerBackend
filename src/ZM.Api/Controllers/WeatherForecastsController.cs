@@ -8,15 +8,8 @@ namespace ZM.Api.Controllers;
 
 [ApiController]
 [Route("weather-forecasts")]
-public class WeatherForecastsController : ApiControllerBase
+public class WeatherForecastsController(ICurrentUser _currentUser) : ApiControllerBase
 {
-    private readonly ICurrentUser _currentUser;
-
-    public WeatherForecastsController(ICurrentUser currentUser)
-    {
-        _currentUser = currentUser;
-    }
-
     [HttpGet]
     public Task<WeatherForecast[]> Get()
         => Sender.Send(new GetWeatherForecastsQuery());

@@ -8,6 +8,7 @@ using ZM.Infrastructure.Authentication.Entities;
 using ZM.Infrastructure.Authentication.Services;
 using ZM.Infrastructure.Authentication.Token;
 using ZM.Infrastructure.Persistence;
+using ZM.Common.Extensions;
 
 namespace ZM.Infrastructure.Authentication;
 public static class ConfigureServices
@@ -20,6 +21,10 @@ public static class ConfigureServices
         services.AddIdentity<AuthUser, AuthRole>(opt => { })
             .AddEntityFrameworkStores<AppDbContext>();
 
+        var tokenSettings = configuration
+            .GetSection(nameof(TokenSettings))
+            .Get<TokenSettings>() ?? throw new Exception();
+
         services
             .AddAuthentication(opt =>
             {
@@ -30,14 +35,15 @@ public static class ConfigureServices
             {
                 opt.TokenValidationParameters = new()
                 {
-                    ValidIssuer = "zm-backend",
-                    ValidAudience = "zm-flatter",
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("supersecret123123adminmazerratty!!!")),
+                    ValidIssuer = tokenSettings.Issuer,
+                    ValidAudience = tokenSettings.Audience,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenSettings.Secret)),
                 };
             });
 
         services.AddScoped<IAuthenticationService, AuthenticationService>();    
         services.AddScoped<ITokenService, JwtTokenService>();
         services.AddScoped<ICurrentUser, CurrentUser>();
+        services.RegisterOptions<TokenSettings>(configuration);
     }
 }

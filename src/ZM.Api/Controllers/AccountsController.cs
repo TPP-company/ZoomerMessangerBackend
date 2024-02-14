@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ZM.Infrastructure.Authentication.Services;
-using ZM.Application.Common.Results;
 using ZM.Infrastructure.Authentication.Token;
+using ZM.Common.Results;
 
 namespace ZM.Api.Controllers;
 

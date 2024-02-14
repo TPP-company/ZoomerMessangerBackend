@@ -1,4 +1,4 @@
-﻿namespace ZM.Application.Common.Results;
+﻿namespace ZM.Common.Results;
 
 /// <summary>
 /// Результат.
