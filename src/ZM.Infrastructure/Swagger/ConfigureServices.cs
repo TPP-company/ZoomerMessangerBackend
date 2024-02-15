@@ -36,6 +36,12 @@ public static class ConfigureServices
                     []
                 }
             });
+
+            var assembly = AppDomain.CurrentDomain.GetAssemblies()
+                .SingleOrDefault(assembly => assembly.GetName().Name == "ZM.Api");
+
+            var xmlFilename = $"{assembly!.GetName().Name}.xml";
+            opt.IncludeXmlComments(Path.Combine(Path.GetDirectoryName(assembly.Location)!, xmlFilename));
         });
 
         return services;
