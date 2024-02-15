@@ -7,7 +7,14 @@ namespace ZM.Domain.Entities;
 /// </summary>
 public class Conversation : Entity
 {
+    /// <summary>
+    /// Сообщение.
+    /// </summary>
     public string Message { get; set; } = null!;
+
+    /// <summary>
+    /// Дата создания.
+    /// </summary>
     public DateTime CreatedDate { get; set; }
 
     public bool IsNew { get; set; }
