@@ -29,10 +29,12 @@ public class AccountsController(IAuthenticationService _authenticationService) :
     /// </summary>
     /// <param name="request">Информация для регистрации.</param>
     [HttpPost("sign-up")]
-    public async Task<ActionResult<Result<ResultDataEmpty>>> SignUpAsync(SignUpRequest request)
+    public async Task<ActionResult> SignUpAsync(SignUpRequest request)
     {
         var result = await _authenticationService.SignUpAsync(request);
 
         return result.IsFailure ? BadRequest(result.Error) : Ok();
     }
+
+    //TODO: Refresh token
 }
