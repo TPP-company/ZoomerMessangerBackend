@@ -1,4 +1,4 @@
-using Template.Infrastructure.RoutePrefix;
+using ZM.Infrastructure.RoutePrefix;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 namespace ZM.Api.Controllers;

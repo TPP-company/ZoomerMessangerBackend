@@ -15,7 +15,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZM.Domain", "src\ZM.Domain\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZM.Infrastructure", "src\ZM.Infrastructure\ZM.Infrastructure.csproj", "{71EEB0C1-2D5D-451C-AA8F-1B54FC8D632E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZM.Application.Tests", "tests\ZM.Application\ZM.Application.Tests.csproj", "{755E0887-C988-4583-9C4A-A07F53BDEC57}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZM.Application.Tests", "tests\ZM.Application\ZM.Application.Tests.csproj", "{755E0887-C988-4583-9C4A-A07F53BDEC57}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZM.Common", "src\ZM.Common\ZM.Common.csproj", "{D434D0FE-8F69-4DCB-9462-F48B895A5CA2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,6 +45,10 @@ Global
 		{755E0887-C988-4583-9C4A-A07F53BDEC57}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{755E0887-C988-4583-9C4A-A07F53BDEC57}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{755E0887-C988-4583-9C4A-A07F53BDEC57}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D434D0FE-8F69-4DCB-9462-F48B895A5CA2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D434D0FE-8F69-4DCB-9462-F48B895A5CA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D434D0FE-8F69-4DCB-9462-F48B895A5CA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D434D0FE-8F69-4DCB-9462-F48B895A5CA2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -53,6 +59,7 @@ Global
 		{553520A4-E790-4E02-8F86-92252670F440} = {E5CDFC54-77D2-4539-9C74-3E759865A988}
 		{71EEB0C1-2D5D-451C-AA8F-1B54FC8D632E} = {E5CDFC54-77D2-4539-9C74-3E759865A988}
 		{755E0887-C988-4583-9C4A-A07F53BDEC57} = {C95EF611-ED62-4DE4-84F9-ADD205570CDA}
+		{D434D0FE-8F69-4DCB-9462-F48B895A5CA2} = {E5CDFC54-77D2-4539-9C74-3E759865A988}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CB6E9A80-715B-4956-BE65-AE48169087BD}
