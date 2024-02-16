@@ -5,6 +5,8 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <InvariantGlobalization>true</InvariantGlobalization>
+	<GenerateDocumentationFile>true</GenerateDocumentationFile>
+	<DocumentationFile>D:\VS Projects\ZoomerMessangerBackend\src\ZM.Api\bin\Debug\net8.0\ZM.Api.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
