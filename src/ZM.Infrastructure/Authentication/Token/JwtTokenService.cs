@@ -38,6 +38,6 @@ internal class JwtTokenService(TokenSettings _tokenSettings) : ITokenService
     {
         return [
             new Claim(ClaimTypes.Name, authUser.UserName!),
-            new Claim(KnownClaims.Id, authUser.Id.ToString())];
+            new Claim(KnownClaims.ExternalId, authUser.Id.ToString())];
     }
 }

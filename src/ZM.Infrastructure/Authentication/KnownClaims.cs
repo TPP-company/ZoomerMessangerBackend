@@ -8,5 +8,5 @@ internal class KnownClaims
     /// <summary>
     /// Идентификатор.
     /// </summary>
-    public const string Id = "id";
+    public const string ExternalId = "externalId";
 }
