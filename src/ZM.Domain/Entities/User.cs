@@ -1,4 +1,6 @@
-﻿using ZM.Domain.Common;
+﻿using ZM.Domain.ChatGroups;
+using ZM.Domain.Chats;
+using ZM.Domain.Common;
 
 namespace ZM.Domain.Entities;
 
@@ -31,4 +33,24 @@ public class User : Entity
     /// Идентификатор внешнего пользователя.
     /// </summary>
     public Guid ExternalId { get; set; }
+
+    /// <summary>
+    /// Чат группы.
+    /// </summary>
+    public ICollection<ChatGroup> ChatGroups { get; set; }
+
+    /// <summary>
+    /// Сообщение чат групп.
+    /// </summary>
+    public ICollection<ChatGroupMessage> ChatGroupMessages { get; set; }
+
+    /// <summary>
+    /// Чаты.
+    /// </summary>
+    public ICollection<Chat> Chats { get; set; }
+
+    /// <summary>
+    /// Сообщения чатов.
+    /// </summary>
+    public ICollection<ChatMessage> ChatMessages { get; set; }
 }
