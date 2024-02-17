@@ -18,7 +18,7 @@ public class WeatherForecastsController(ICurrentUser _currentUser) : ApiControll
     [HttpGet("authorized")]
     public async Task<WeatherForecastAuthorized> GetAuthorized()
     {
-        return new WeatherForecastAuthorized(await Sender.Send(new GetWeatherForecastsQuery()), _currentUser.Id);
+        return new WeatherForecastAuthorized(await Sender.Send(new GetWeatherForecastsQuery()), _currentUser.ExternalId);
     }
 }
 

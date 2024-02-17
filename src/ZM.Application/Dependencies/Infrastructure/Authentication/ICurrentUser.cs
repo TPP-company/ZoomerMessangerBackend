@@ -8,7 +8,7 @@ public interface ICurrentUser
     /// <summary>
     /// Идентификатор.
     /// </summary>
-    public Guid Id { get; }
+    public Guid ExternalId { get; }
 
     /// <summary>
     /// Текущего пользователь неизвестен.

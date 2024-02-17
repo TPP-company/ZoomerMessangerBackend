@@ -19,14 +19,17 @@ internal class AuthenticationService(
 {
     public async Task<Result<TokenDto>> SignInAsync(SignInRequest request)
     {
-        var user = await _userManager.FindByNameAsync(request.Username);
+        var authUser = await _userManager.FindByNameAsync(request.Username);
 
-        var isSignInInvalid = user is null || !await _userManager.CheckPasswordAsync(user, request.Password);
+        var isSignInInvalid = authUser is null || !await _userManager.CheckPasswordAsync(authUser, request.Password);
 
         if (isSignInInvalid)
             return Result<TokenDto>.Fail("Authentication.SignIn");
 
-        return _jwtTokenService.Generate(user!);
+        var user = _dbContext.Set<User>().SingleOrDefault(u => u.ExternalId == authUser!.Id)
+            ?? throw new Exception($"User with externalId {authUser!.Id} not exists");
+
+        return _jwtTokenService.Generate(authUser!);
     }
 
     public async Task<Result<ResultDataEmpty>> SignUpAsync(SignUpRequest request)

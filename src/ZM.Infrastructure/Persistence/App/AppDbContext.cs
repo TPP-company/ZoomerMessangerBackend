@@ -2,6 +2,8 @@
 using Microsoft.EntityFrameworkCore.Storage;
 using System.Data;
 using ZM.Application.Dependencies.Infrastructure.Persistence;
+using ZM.Domain.ChatGroups;
+using ZM.Domain.Chats;
 using ZM.Domain.Entities;
 
 namespace ZM.Infrastructure.Persistence.App;
@@ -14,7 +16,10 @@ internal class AppDbContext : DbContext, IDbContext
     }
 
     public DbSet<User> Users { get; set; } = null!;
-    public DbSet<Conversation> Conversations { get; set; } = null!;
+    public DbSet<ChatGroup> ChatGroups { get; set; } = null!;
+    public DbSet<ChatGroupMessage> ChatGroupMessages { get; set; } = null!;
+    public DbSet<Chat> Chats { get; set; } = null!;
+    public DbSet<ChatMessage> ChatMessages { get; set; } = null!;
 
     public async Task BeginTransactionAsync(CancellationToken cancellationToken = default)
     {
@@ -70,5 +75,15 @@ internal class AppDbContext : DbContext, IDbContext
     DbSet<TEntity> IDbContext.Set<TEntity>()
     {
         return Set<TEntity>();
+    }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<ChatGroup>()
+            .HasOne(cg => cg.Creator);
+
+        modelBuilder.Entity<ChatGroup>()
+            .HasMany(cg => cg.Users)
+            .WithMany(c => c.ChatGroups);
     }
 }

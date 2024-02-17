@@ -3,6 +3,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using ZM.Infrastructure.Authentication.Entities;
+using ZM.Application.Dependencies.Infrastructure.Authentication;
 
 namespace ZM.Infrastructure.Authentication.Token;
 
@@ -38,6 +39,6 @@ internal class JwtTokenService(TokenSettings _tokenSettings) : ITokenService
     {
         return [
             new Claim(ClaimTypes.Name, authUser.UserName!),
-            new Claim(KnownClaims.Id, authUser.Id.ToString())];
+            new Claim(KnownClaims.ExternalId, authUser.Id.ToString())];
     }
 }
