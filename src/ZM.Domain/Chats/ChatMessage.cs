@@ -1,5 +1,4 @@
-﻿using ZM.Domain.ChatGroups;
-using ZM.Domain.Common;
+﻿using ZM.Domain.Common;
 using ZM.Domain.Entities;
 
 namespace ZM.Domain.Chats;
@@ -12,12 +11,12 @@ public class ChatMessage : Entity
     private ChatMessage()
     { }
 
-    public ChatMessage(string content, DateTime createdDate, Guid senderId, Guid chatGroupId)
+    public ChatMessage(string content, DateTime createdDate, Guid senderId, Guid chatId)
     {
         Content = content;
         CreatedDate = createdDate;
         SenderId = senderId;
-        ChatGroupId = chatGroupId;
+        ChatId = chatId;
     }
 
     /// <summary>
@@ -41,14 +40,14 @@ public class ChatMessage : Entity
     public User Sender { get; protected set; }
 
     /// <summary>
-    /// Идентификатор чат группы.
+    /// Идентификатор чата.
     /// </summary>
-    public Guid ChatGroupId { get; protected set; }
+    public Guid ChatId { get; protected set; }
 
     /// <summary>
-    /// Чат группа.
+    /// Чат.
     /// </summary>
-    public ChatGroup ChatGroup { get; protected set; }
+    public Chat Chat { get; protected set; }
 
     /// <summary>
     /// Сообщение прочитано.

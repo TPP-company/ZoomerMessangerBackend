@@ -1,9 +1,9 @@
-﻿namespace ZM.Infrastructure.Authentication;
+﻿namespace ZM.Application.Dependencies.Infrastructure.Authentication;
 
 /// <summary>
 /// Утверждения.
 /// </summary>
-internal class KnownClaims
+public class KnownClaims
 {
     /// <summary>
     /// Идентификатор.
