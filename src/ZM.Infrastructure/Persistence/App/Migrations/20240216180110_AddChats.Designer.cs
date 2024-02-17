@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ZM.Infrastructure.Persistence.App;
@@ -11,9 +12,11 @@ using ZM.Infrastructure.Persistence.App;
 namespace ZM.Infrastructure.Persistence.App.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240216180110_AddChats")]
+    partial class AddChats
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -120,7 +123,10 @@ namespace ZM.Infrastructure.Persistence.App.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("ChatId")
+                    b.Property<Guid>("ChatGroupId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("ChatId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("Content")
@@ -137,6 +143,8 @@ namespace ZM.Infrastructure.Persistence.App.Migrations
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ChatGroupId");
 
                     b.HasIndex("ChatId");
 
@@ -234,11 +242,15 @@ namespace ZM.Infrastructure.Persistence.App.Migrations
 
             modelBuilder.Entity("ZM.Domain.Chats.ChatMessage", b =>
                 {
-                    b.HasOne("ZM.Domain.Chats.Chat", "Chat")
-                        .WithMany("ChatMessages")
-                        .HasForeignKey("ChatId")
+                    b.HasOne("ZM.Domain.ChatGroups.ChatGroup", "ChatGroup")
+                        .WithMany()
+                        .HasForeignKey("ChatGroupId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("ZM.Domain.Chats.Chat", null)
+                        .WithMany("ChatMessages")
+                        .HasForeignKey("ChatId");
 
                     b.HasOne("ZM.Domain.Entities.User", "Sender")
                         .WithMany("ChatMessages")
@@ -246,7 +258,7 @@ namespace ZM.Infrastructure.Persistence.App.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Chat");
+                    b.Navigation("ChatGroup");
 
                     b.Navigation("Sender");
                 });

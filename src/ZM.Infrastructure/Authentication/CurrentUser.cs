@@ -15,14 +15,14 @@ internal class CurrentUser : ICurrentUser
         if (httpContext is null)
             return;
 
-        Id = httpContext.User.FindFirst(KnownClaims.Id) is null ? 
+        ExternalId = httpContext.User.FindFirst(KnownClaims.ExternalId) is null ? 
             UnknownId : 
-            Guid.Parse(httpContext.User.FindFirst(KnownClaims.Id)!.Value);
+            Guid.Parse(httpContext.User.FindFirst(KnownClaims.ExternalId)!.Value);
 
-        if (Id != UnknownId)
+        if (ExternalId != UnknownId)
             IsUnknown = false;
     }
 
-    public Guid Id { get; } = UnknownId;
+    public Guid ExternalId { get; } = UnknownId;
     public bool IsUnknown { get; } = true;
 }
