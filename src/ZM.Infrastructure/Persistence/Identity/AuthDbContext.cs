@@ -14,6 +14,7 @@ internal class AuthDbContext : IdentityDbContext<AuthUser, AuthRole, Guid>
     protected override void OnModelCreating(ModelBuilder builder)
     {
         builder.HasDefaultSchema(DefaultSchema);
+
         base.OnModelCreating(builder);
     }
 }
