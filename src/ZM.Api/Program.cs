@@ -8,7 +8,14 @@ builder.Services.AddControllers(opts =>
 {
     opts.Conventions.Add(new RoutePrefixConvention());
 });
-
+builder.Services.AddCors(option =>
+{
+    option.AddPolicy("AllowAll",
+        builder => builder
+        .AllowAnyOrigin()
+        .AllowAnyMethod()
+        .AllowAnyHeader());
+});
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
 builder.Services.AddEndpointsApiExplorer();
 
@@ -25,7 +32,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseCors("AllowAll");
 app.UseAuthentication();
 app.UseAuthorization();
 
