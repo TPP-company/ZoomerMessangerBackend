@@ -1,6 +1,8 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ZM.Api.Requests;
+using ZM.Application.Common.Models.Pagination;
 using ZM.Application.Dependencies.Infrastructure.Persistence;
 using ZM.Application.UseCases.Chats.CreateChat;
 using ZM.Application.UseCases.Chats.GetChatMessages;
@@ -28,8 +30,13 @@ public class ChatsController(ISender _sender, IDbContext _dbContext) : ApiContro
     /// Получить сообщения чата.
     /// </summary>
     [HttpGet("{id}/messages")]
-    public Task<Result<IReadOnlyCollection<ChatMessageDto>>> GetChatMessagesAsync(Guid id)
-        => _sender.Send(new GetChatMessagesQuery(id));
+    public Task<PaginatedResponse<ChatMessageDto>> GetChatMessagesAsync(Guid id, [FromQuery] GetChatMessagesRequest request)
+        => _sender.Send(new GetChatMessagesQuery(id)
+        {
+            PageNumber = request.PageNumber,
+            PageSize = request.PageSize,
+            Sorting = request.Sorting,
+        });
 
     /// <summary>
     /// Создать.
