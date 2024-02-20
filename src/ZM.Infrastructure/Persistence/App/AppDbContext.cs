@@ -18,8 +18,8 @@ internal class AppDbContext : DbContext, IDbContext
     public DbSet<User> Users { get; set; } = null!;
     public DbSet<ChatGroup> ChatGroups { get; set; } = null!;
     public DbSet<ChatGroupMessage> ChatGroupMessages { get; set; } = null!;
-    public DbSet<Chat> Chats { get; set; } = null!;
-    public DbSet<ChatMessage> ChatMessages { get; set; } = null!;
+    public DbSet<P2PChat> P2PChats { get; set; } = null!;
+    public DbSet<P2PChatMessage> P2PChatMessages { get; set; } = null!;
 
     public async Task BeginTransactionAsync(CancellationToken cancellationToken = default)
     {

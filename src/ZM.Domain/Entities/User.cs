@@ -47,10 +47,10 @@ public class User : Entity
     /// <summary>
     /// Чаты.
     /// </summary>
-    public ICollection<Chat> Chats { get; set; }
+    public ICollection<P2PChat> P2PChats { get; set; }
 
     /// <summary>
     /// Сообщения чатов.
     /// </summary>
-    public ICollection<ChatMessage> ChatMessages { get; set; }
+    public ICollection<P2PChatMessage> P2PChatMessages { get; set; }
 }
