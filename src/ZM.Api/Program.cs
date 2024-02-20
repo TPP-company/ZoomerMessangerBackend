@@ -43,7 +43,7 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapHub<ChatHub>("/hubs/chat");
+app.MapHub<P2PChatHub>("/hubs/chats/p2p");
 
 app.MapControllers();
 

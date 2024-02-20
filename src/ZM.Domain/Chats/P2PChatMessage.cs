@@ -4,14 +4,14 @@ using ZM.Domain.Entities;
 namespace ZM.Domain.Chats;
 
 /// <summary>
-/// Сообщение чата.
+/// Сообщение чата 1 на 1.
 /// </summary>
-public class ChatMessage : Entity
+public class P2PChatMessage : Entity
 {
-    private ChatMessage()
+    private P2PChatMessage()
     { }
 
-    public ChatMessage(string content, DateTime createdDate, Guid senderId, Guid chatId)
+    public P2PChatMessage(string content, DateTime createdDate, Guid senderId, Guid chatId)
     {
         Content = content;
         CreatedDate = createdDate;
@@ -40,14 +40,14 @@ public class ChatMessage : Entity
     public User Sender { get; protected set; }
 
     /// <summary>
-    /// Идентификатор чата.
+    /// Идентификатор чата 1 на 1.
     /// </summary>
     public Guid ChatId { get; protected set; }
 
     /// <summary>
-    /// Чат.
+    /// Чат 1 на 1.
     /// </summary>
-    public Chat Chat { get; protected set; }
+    public P2PChat Chat { get; protected set; }
 
     /// <summary>
     /// Сообщение прочитано.

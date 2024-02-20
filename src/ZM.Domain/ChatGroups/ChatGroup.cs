@@ -6,7 +6,7 @@ namespace ZM.Domain.ChatGroups;
 /// <summary>
 /// Группа.
 /// </summary>
-public class ChatGroup : Entity
+public class ChatGroup : Chat
 {
     public ChatGroup(string name, Guid creatorId)
     {
@@ -28,11 +28,6 @@ public class ChatGroup : Entity
     /// Создатель.
     /// </summary>
     public User Creator { get; protected set; }
-
-    /// <summary>
-    /// Пользователи.
-    /// </summary>
-    public ICollection<User> Users { get; protected set; }
 
     /// <summary>
     /// Сообщения.

@@ -10,29 +10,29 @@ using ZM.Application.Dependencies.Infrastructure.Persistence;
 using ZM.Domain.Chats;
 using ZM.Domain.Entities;
 
-namespace ZM.Application.UseCases.Chats.GetChatMessages;
+namespace ZM.Application.UseCases.Chats.GetP2PChatMessages;
 
 /// <summary>
 /// Получить сообщения чата.
 /// </summary>
 /// <param name="ChatId">Идентификатор чата.</param>
-public record GetChatMessagesQuery(Guid ChatId) : PagedAndSorted, IRequest<PaginatedResponse<ChatMessageDto>>;
+public record GetP2PChatMessagesQuery(Guid ChatId) : PagedAndSorted, IRequest<PaginatedResponse<P2PChatMessageDto>>;
 
-public class GetChatMessagesQueryHandler(IDbContext _dbContext, ICurrentUser _currentUser, IMapper _mapper) 
-    : IRequestHandler<GetChatMessagesQuery, PaginatedResponse<ChatMessageDto>>
+public class GetP2PChatMessagesQueryHandler(IDbContext _dbContext, ICurrentUser _currentUser, IMapper _mapper)
+    : IRequestHandler<GetP2PChatMessagesQuery, PaginatedResponse<P2PChatMessageDto>>
 {
-    public async Task<PaginatedResponse<ChatMessageDto>> Handle(GetChatMessagesQuery request, CancellationToken cancellationToken)
+    public async Task<PaginatedResponse<P2PChatMessageDto>> Handle(GetP2PChatMessagesQuery request, CancellationToken cancellationToken)
     {
-        var chatExists = await _dbContext.Set<Chat>()
+        var chatExists = await _dbContext.Set<P2PChat>()
             .SingleOrDefaultAsync(
                 ch => ch.Id == request.ChatId && ch.Users.Any(u => u.ExternalId == _currentUser.ExternalId),
                 cancellationToken)
             ?? throw new ResourceNotFoundException();
 
-        var chatMessages = await _dbContext.Set<ChatMessage>()
+        var chatMessages = await _dbContext.Set<P2PChatMessage>()
             .Where(m => m.ChatId == request.ChatId)
             .OrderBy(m => m.CreatedDate)
-            .GetPaginatedResponseAsync<ChatMessage, ChatMessageDto>(request, null, _mapper, cancellationToken);
+            .GetPaginatedResponseAsync<P2PChatMessage, P2PChatMessageDto>(request, null, _mapper, cancellationToken);
 
         return chatMessages;
     }
@@ -41,7 +41,7 @@ public class GetChatMessagesQueryHandler(IDbContext _dbContext, ICurrentUser _cu
 /// <summary>
 /// Сообщение чата.
 /// </summary>
-public class ChatMessageDto : IMapFrom<ChatMessage>
+public class P2PChatMessageDto : IMapFrom<P2PChatMessage>
 {
     /// <summary>
     /// Идентификатор.
