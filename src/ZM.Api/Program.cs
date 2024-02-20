@@ -21,6 +21,12 @@ builder.Services.AddSingleton(TimeProvider.System);
 
 builder.Services.AddExceptionHandler<ExceptionHandler>();
 
+builder.Services.AddCors(p => p.AddPolicy("corspolisy", build =>
+{
+    build.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
+}));
+
+
 var app = builder.Build();
 app.UseExceptionHandler(opt => { });
 
@@ -28,10 +34,12 @@ Seeder.Seed(app.Services);
 
 if (app.Environment.IsDevelopment())
 {
+    app.UseCors();
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
+app.UseCors("corspolisy");
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
