@@ -10,7 +10,7 @@ using ZM.Application.Dependencies.Infrastructure.Persistence;
 using ZM.Domain.Chats;
 using ZM.Domain.Entities;
 
-namespace ZM.Application.UseCases.Chats.GetChatMessages;
+namespace ZM.Application.UseCases.Chats.GetP2PChatMessages;
 
 /// <summary>
 /// Получить сообщения чата.
@@ -18,7 +18,7 @@ namespace ZM.Application.UseCases.Chats.GetChatMessages;
 /// <param name="ChatId">Идентификатор чата.</param>
 public record GetP2PChatMessagesQuery(Guid ChatId) : PagedAndSorted, IRequest<PaginatedResponse<P2PChatMessageDto>>;
 
-public class GetP2PChatMessagesQueryHandler(IDbContext _dbContext, ICurrentUser _currentUser, IMapper _mapper) 
+public class GetP2PChatMessagesQueryHandler(IDbContext _dbContext, ICurrentUser _currentUser, IMapper _mapper)
     : IRequestHandler<GetP2PChatMessagesQuery, PaginatedResponse<P2PChatMessageDto>>
 {
     public async Task<PaginatedResponse<P2PChatMessageDto>> Handle(GetP2PChatMessagesQuery request, CancellationToken cancellationToken)

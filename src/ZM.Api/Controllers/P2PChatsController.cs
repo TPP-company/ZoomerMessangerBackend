@@ -2,8 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using ZM.Api.Requests;
 using ZM.Application.Common.Models.Pagination;
-using ZM.Application.UseCases.Chats.CreateChat;
-using ZM.Application.UseCases.Chats.GetChatMessages;
+using ZM.Application.UseCases.Chats.CreateP2PChat;
+using ZM.Application.UseCases.Chats.GetP2PChatMessages;
 using ZM.Common.Results;
 
 namespace ZM.Api.Controllers;

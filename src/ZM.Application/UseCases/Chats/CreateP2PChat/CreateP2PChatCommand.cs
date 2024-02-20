@@ -7,7 +7,7 @@ using ZM.Common.Results;
 using ZM.Domain.Chats;
 using ZM.Domain.Entities;
 
-namespace ZM.Application.UseCases.Chats.CreateChat;
+namespace ZM.Application.UseCases.Chats.CreateP2PChat;
 
 /// <summary>
 /// Создать чат.
@@ -28,7 +28,7 @@ public class CreateP2PChatCommandHandler(IDbContext _dbContext, ICurrentUser _cu
 
         var chatExists = await _dbContext.Set<P2PChat>().AnyAsync(c => c.Users.All(u => userIds.Contains(u.Id)), cancellationToken);
 
-        if(chatExists)
+        if (chatExists)
             throw new ValidationException($"Чат с пользователем {interlocutor.Id} уже существует");
 
         var chat = new P2PChat(currentUser, interlocutor);
