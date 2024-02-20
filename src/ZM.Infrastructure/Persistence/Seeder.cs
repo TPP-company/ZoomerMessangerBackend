@@ -16,6 +16,7 @@ public class Seeder
 
     private const string victorUserName = "victor";
     private const string vedyaUserName = "vedya";
+    private const string ismailUserName = "ismail";
     private const string password = "Aa123!";
 
     public static void Seed(IServiceProvider serviceProvider)
@@ -29,6 +30,7 @@ public class Seeder
 
         CreateUser(victorUserName);
         CreateUser(vedyaUserName);
+        CreateUser(ismailUserName);
     }
 
     private static void CreateUser(string userName)
