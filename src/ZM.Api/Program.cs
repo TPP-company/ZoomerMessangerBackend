@@ -10,7 +10,14 @@ builder.Services.AddControllers(opts =>
 {
     opts.Conventions.Add(new RoutePrefixConvention());
 });
-
+builder.Services.AddCors(option =>
+{
+    option.AddPolicy("AllowAll",
+        builder => builder
+        .AllowAnyOrigin()
+        .AllowAnyMethod()
+        .AllowAnyHeader());
+});
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSignalR();
@@ -21,11 +28,6 @@ builder.Services.AddSingleton(TimeProvider.System);
 
 builder.Services.AddExceptionHandler<ExceptionHandler>();
 
-builder.Services.AddCors(p => p.AddPolicy("corspolisy", build =>
-{
-    build.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
-}));
-
 var app = builder.Build();
 app.UseExceptionHandler(opt => { });
 
@@ -35,11 +37,10 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseCors("AllowAll");
 }
 
-app.UseCors("corspolisy");
 app.UseHttpsRedirection();
-
 app.UseAuthentication();
 app.UseAuthorization();
 
