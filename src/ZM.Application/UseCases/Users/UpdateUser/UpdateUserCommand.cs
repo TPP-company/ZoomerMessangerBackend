@@ -15,16 +15,14 @@ namespace ZM.Application.UseCases.Users.UpdateUser;
 public record UpdateUserCommand(string About, Guid AvatarId) : IRequest<Result<ResultDataEmpty>>;
 
 public class UpdateUserCommandHandler(IDbContext _dbContext, ICurrentUser currentUser) : IRequestHandler<UpdateUserCommand, Result<ResultDataEmpty>>
-{   
+{
     public async Task<Result<ResultDataEmpty>> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
     {
         var findUser = await _dbContext.Set<User>().FirstAsync(x => x.ExternalId == currentUser.ExternalId, cancellationToken);
         findUser.About = request.About;
         findUser.AvatarId = request.AvatarId;
-        _ = await _dbContext.SaveChangesAsync();
+        _ = await _dbContext.SaveChangesAsync(cancellationToken);
 
         return ResultDataEmpty.Value;
     }
 }
-
-
