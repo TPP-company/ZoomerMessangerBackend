@@ -17,5 +17,4 @@ internal class AuthDbContext : IdentityDbContext<AuthUser, AuthRole, Guid>
         builder.HasDefaultSchema(DefaultSchema);
         base.OnModelCreating(builder);
     }
-    
 }
