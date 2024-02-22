@@ -1,7 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection.Metadata.Ecma335;
 using ZM.Application.Dependencies.Infrastructure.Persistence;
+using ZM.Application.UseCases.Users.UpdateUser;
+using ZM.Common.Results;
 using ZM.Domain.Entities;
+using ZM.Infrastructure.Persistence.App.Migrations;
 
 namespace ZM.Api.Controllers;
 
@@ -18,4 +22,17 @@ public class UsersController(IDbContext _dbContext) : ApiControllerBase
     [HttpGet]
     public Task<User[]> GetAll()
         => _dbContext.Set<User>().ToArrayAsync();
+    /// <summary>
+    /// Обновить информацию о себе
+    /// </summary>
+    /// <param name="userCommand">string About, Guid AvatarId</param>
+    /// <returns></returns>
+    [HttpPatch("own")]
+    public async Task<Result<ResultDataEmpty>> OwnGetPatchInfo([FromBody] UpdateUserCommand userCommand) {
+        return await Sender.Send(userCommand);     
+    }
+
+    
+      
+
 }
