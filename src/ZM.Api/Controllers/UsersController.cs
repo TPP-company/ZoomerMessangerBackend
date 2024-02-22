@@ -4,7 +4,6 @@ using ZM.Application.Dependencies.Infrastructure.Persistence;
 using ZM.Application.UseCases.Users.UpdateUser;
 using ZM.Common.Results;
 using ZM.Domain.Entities;
-using ZM.Infrastructure.Persistence.App.Migrations;
 
 namespace ZM.Api.Controllers;
 
@@ -13,8 +12,8 @@ namespace ZM.Api.Controllers;
 /// </summary>
 [ApiController]
 [Route("users")]
-public class UsersController(IDbContext _dbContext) : ApiControllerBase
-{
+public class UsersController(IDbContext _dbContext) : ApiControllerBase {
+
     /// <summary>
     /// Получить всех пользователей.
     /// </summary>
@@ -26,7 +25,6 @@ public class UsersController(IDbContext _dbContext) : ApiControllerBase
     /// Обновить информацию о себе
     /// </summary>
     /// <param name="userCommand">string About, Guid AvatarId</param>
-    /// <returns></returns>
     [HttpPatch("own/update")]
     public Task<Result<ResultDataEmpty>> UpdateOwnProfile([FromBody] UpdateUserCommand userCommand) {
         return Sender.Send(userCommand);     
