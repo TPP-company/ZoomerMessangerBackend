@@ -12,7 +12,8 @@ namespace ZM.Api.Controllers;
 /// </summary>
 [ApiController]
 [Route("users")]
-public class UsersController(IDbContext _dbContext) : ApiControllerBase {
+public class UsersController(IDbContext _dbContext) : ApiControllerBase 
+{
 
     /// <summary>
     /// Получить всех пользователей.
@@ -26,7 +27,8 @@ public class UsersController(IDbContext _dbContext) : ApiControllerBase {
     /// </summary>
     /// <param name="userCommand">string About, Guid AvatarId</param>
     [HttpPatch("own/update")]
-    public Task<Result<ResultDataEmpty>> UpdateOwnProfile([FromBody] UpdateUserCommand userCommand) {
+    public Task<Result<ResultDataEmpty>> UpdateOwnProfile([FromBody] UpdateUserCommand userCommand)
+    {
         return Sender.Send(userCommand);     
     }
 }
