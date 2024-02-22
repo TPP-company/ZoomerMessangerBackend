@@ -1,5 +1,4 @@
-# ZoomerMessangerBackend
-
+# ZoomerMessanger.Backend
 
 
 # Apply migrations:

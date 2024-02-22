@@ -1,6 +1,7 @@
 using ZM.Infrastructure.RoutePrefix;
 using ZM.Application;
 using ZM.Infrastructure;
+using ZM.Infrastructure.Persistence;
 using ZM.Api.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -30,17 +31,20 @@ builder.Services.AddExceptionHandler<ExceptionHandler>();
 var app = builder.Build();
 app.UseExceptionHandler(opt => { });
 
+Seeder.Seed(app.Services);
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
     app.UseCors("AllowAll");
 }
+
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapHub<ChatHub>("/hubs/chat");
+app.MapHub<P2PChatHub>("/hubs/chats/p2p");
 
 app.MapControllers();
 

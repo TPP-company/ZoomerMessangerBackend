@@ -12,7 +12,7 @@ namespace ZM.Api.Hubs;
 /// Хаб чата.
 /// </summary>
 [Authorize]
-public class ChatHub(IDbContext _dbContext, TimeProvider _timeProvider) : Hub
+public class P2PChatHub(IDbContext _dbContext, TimeProvider _timeProvider) : Hub
 {
     /// <summary>
     /// Текущие пользователи подключенные к хабу (т.е. онлайн). Key: externalId, Value: connectionId
@@ -54,12 +54,12 @@ public class ChatHub(IDbContext _dbContext, TimeProvider _timeProvider) : Hub
         if (_onlineUsers.TryGetValue(senderExternalId, out string connectionId))
         {
             var sender = await _dbContext.Set<User>().SingleOrDefaultAsync(u => u.ExternalId == senderExternalId);
-            var chat = await _dbContext.Set<Chat>()
+            var chat = await _dbContext.Set<P2PChat>()
                 .Include(ch => ch.Users)
                 .SingleOrDefaultAsync(ch => ch.Id == gChatId);
 
-            var chatMessage = new ChatMessage(content, _timeProvider.GetUtcNow().UtcDateTime, sender.Id, chat.Id);
-            await _dbContext.Set<ChatMessage>().AddAsync(chatMessage);
+            var chatMessage = new P2PChatMessage(content, _timeProvider.GetUtcNow().UtcDateTime, sender.Id, chat.Id);
+            await _dbContext.Set<P2PChatMessage>().AddAsync(chatMessage);
             await _dbContext.SaveChangesAsync();
 
             var interlocutorExternalId = chat.Users.First(u => u.ExternalId != senderExternalId).ExternalId;

@@ -17,7 +17,7 @@ public class GetChatsQueryHandler(IDbContext _dbContext, ICurrentUser _currentUs
 {
     public async Task<Result<IReadOnlyCollection<GetChatsDto>>> Handle(GetChatsQuery request, CancellationToken cancellationToken)
     {
-        var dtos = await _dbContext.Set<Chat>()
+        var dtos = await _dbContext.Set<P2PChat>()
             .Where(chat => chat.Users.Any(u => u.ExternalId == _currentUser.ExternalId))
             .Select(chat => new GetChatsDto()
             {
