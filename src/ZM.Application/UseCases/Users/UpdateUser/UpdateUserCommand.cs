@@ -8,6 +8,7 @@ using ZM.Domain.Entities;
 namespace ZM.Application.UseCases.Users.UpdateUser;
 
 public record UpdateUserCommand(string About, Guid AvatarId) : IRequest<Result<ResultDataEmpty>>;
+
 public class UpdateUserCommandHandler(IDbContext _dbContext, ICurrentUser currentUser) : IRequestHandler<UpdateUserCommand, Result<ResultDataEmpty>>
 {
     public async Task<Result<ResultDataEmpty>> Handle(UpdateUserCommand request, CancellationToken cancellationToken)

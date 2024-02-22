@@ -22,17 +22,14 @@ public class UsersController(IDbContext _dbContext) : ApiControllerBase
     [HttpGet]
     public Task<User[]> GetAll()
         => _dbContext.Set<User>().ToArrayAsync();
+
     /// <summary>
     /// Обновить информацию о себе
     /// </summary>
     /// <param name="userCommand">string About, Guid AvatarId</param>
     /// <returns></returns>
-    [HttpPatch("own")]
-    public async Task<Result<ResultDataEmpty>> OwnGetPatchInfo([FromBody] UpdateUserCommand userCommand) {
-        return await Sender.Send(userCommand);     
+    [HttpPatch("own/update")]
+    public Task<Result<ResultDataEmpty>> UpdateOwnProfile([FromBody] UpdateUserCommand userCommand) {
+        return Sender.Send(userCommand);     
     }
-
-    
-      
-
 }
