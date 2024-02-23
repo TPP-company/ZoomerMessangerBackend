@@ -5,8 +5,8 @@
 /// </summary>
 public interface ISorted
 {
-    /// <summary>
-    /// Строка сортировки. Пример: Name ASC, Age DESC.
-    /// </summary>
-    public string? Sorting { get; init; }
+	/// <summary>
+	/// Строка сортировки. Пример: Name ASC, Age DESC.
+	/// </summary>
+	public string? Sorting { get; init; }
 }

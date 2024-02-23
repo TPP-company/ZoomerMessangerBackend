@@ -1,22 +1,22 @@
-using ZM.Infrastructure.RoutePrefix;
+using ZM.Api.Hubs;
 using ZM.Application;
 using ZM.Infrastructure;
 using ZM.Infrastructure.Persistence;
-using ZM.Api.Hubs;
+using ZM.Infrastructure.RoutePrefix;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers(opts =>
 {
-    opts.Conventions.Add(new RoutePrefixConvention());
+	opts.Conventions.Add(new RoutePrefixConvention());
 });
 builder.Services.AddCors(option =>
 {
-    option.AddPolicy("AllowAll",
-        builder => builder
-        .AllowAnyOrigin()
-        .AllowAnyMethod()
-        .AllowAnyHeader());
+	option.AddPolicy("AllowAll",
+		builder => builder
+		.AllowAnyOrigin()
+		.AllowAnyMethod()
+		.AllowAnyHeader());
 });
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
 builder.Services.AddEndpointsApiExplorer();
@@ -35,9 +35,9 @@ Seeder.Seed(app.Services);
 
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
-    app.UseCors("AllowAll");
+	app.UseSwagger();
+	app.UseSwaggerUI();
+	app.UseCors("AllowAll");
 }
 
 app.UseHttpsRedirection();

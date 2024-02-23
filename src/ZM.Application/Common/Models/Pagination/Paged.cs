@@ -7,9 +7,9 @@ namespace ZM.Application.Common.Models.Pagination;
 /// </summary>
 public abstract record Paged : IPaged
 {
-    [DefaultValue(1)]
-    public int PageNumber { get; init; } = 1;
+	[DefaultValue(1)]
+	public int PageNumber { get; init; } = 1;
 
-    [DefaultValue(10)]
-    public int PageSize { get; init; } = 10;
+	[DefaultValue(10)]
+	public int PageSize { get; init; } = 10;
 }

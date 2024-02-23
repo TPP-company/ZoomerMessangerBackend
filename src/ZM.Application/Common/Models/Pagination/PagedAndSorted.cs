@@ -5,5 +5,5 @@
 /// </summary>
 public abstract record PagedAndSorted : Paged, ISorted
 {
-    public string? Sorting { get; init; } = null;
+	public string? Sorting { get; init; } = null;
 }

@@ -5,8 +5,8 @@
 /// </summary>
 public abstract class Entity : IHasId
 {
-    /// <summary>
-    /// Идентификатор.
-    /// </summary>
-    public Guid Id { get; protected set; }
+	/// <summary>
+	/// Идентификатор.
+	/// </summary>
+	public Guid Id { get; protected set; }
 }

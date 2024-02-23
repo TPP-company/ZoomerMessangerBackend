@@ -7,8 +7,8 @@ namespace ZM.Domain.Common;
 /// </summary>
 public abstract class Chat : Entity
 {
-    /// <summary>
-    /// Пользователи.
-    /// </summary>
-    public ICollection<User> Users { get; protected set; }
+	/// <summary>
+	/// Пользователи.
+	/// </summary>
+	public ICollection<User> Users { get; protected set; }
 }

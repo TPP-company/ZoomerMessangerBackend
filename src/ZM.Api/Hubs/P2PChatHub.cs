@@ -14,69 +14,69 @@ namespace ZM.Api.Hubs;
 [Authorize]
 public class P2PChatHub(IDbContext _dbContext, TimeProvider _timeProvider) : Hub
 {
-    /// <summary>
-    /// Текущие пользователи подключенные к хабу (т.е. онлайн). Key: externalId, Value: connectionId
-    /// </summary>
-    private readonly static Dictionary<Guid, string> _onlineUsers = [];
+	/// <summary>
+	/// Текущие пользователи подключенные к хабу (т.е. онлайн). Key: externalId, Value: connectionId
+	/// </summary>
+	private static readonly Dictionary<Guid, string> _onlineUsers = [];
 
-    public override async Task OnConnectedAsync()
-    {
-        var userExternalId = GetCurrentExternalId();
+	public override async Task OnConnectedAsync()
+	{
+		var userExternalId = GetCurrentExternalId();
 
-        var isUserConnected = _onlineUsers.ContainsKey(userExternalId);
+		var isUserConnected = _onlineUsers.ContainsKey(userExternalId);
 
-        if (!isUserConnected)
-        {
-            _onlineUsers.Add(userExternalId, Context.ConnectionId);
-        }
+		if (!isUserConnected)
+		{
+			_onlineUsers.Add(userExternalId, Context.ConnectionId);
+		}
 
-        await base.OnConnectedAsync();
-    }
+		await base.OnConnectedAsync();
+	}
 
-    public override Task OnDisconnectedAsync(Exception exception)
-    {
-        var userExternalId = GetCurrentExternalId();
-        _onlineUsers.Remove(userExternalId);
+	public override Task OnDisconnectedAsync(Exception exception)
+	{
+		var userExternalId = GetCurrentExternalId();
+		_onlineUsers.Remove(userExternalId);
 
-        return base.OnDisconnectedAsync(exception);
-    }
+		return base.OnDisconnectedAsync(exception);
+	}
 
-    //TODO: Добавить проверки.
-    public async Task Send(string chatId, string content)
-    {
-        if (string.IsNullOrEmpty(content))
-            return;
+	//TODO: Добавить проверки.
+	public async Task Send(string chatId, string content)
+	{
+		if (string.IsNullOrEmpty(content))
+			return;
 
-        var gChatId = Guid.Parse(chatId);
+		var gChatId = Guid.Parse(chatId);
 
-        var senderExternalId = GetCurrentExternalId();
+		var senderExternalId = GetCurrentExternalId();
 
-        if (_onlineUsers.TryGetValue(senderExternalId, out string connectionId))
-        {
-            var sender = await _dbContext.Set<User>().SingleOrDefaultAsync(u => u.ExternalId == senderExternalId);
-            var chat = await _dbContext.Set<P2PChat>()
-                .Include(ch => ch.Users)
-                .SingleOrDefaultAsync(ch => ch.Id == gChatId);
+		if (_onlineUsers.TryGetValue(senderExternalId, out string connectionId))
+		{
+			var sender = await _dbContext.Set<User>().SingleOrDefaultAsync(u => u.ExternalId == senderExternalId);
+			var chat = await _dbContext.Set<P2PChat>()
+				.Include(ch => ch.Users)
+				.SingleOrDefaultAsync(ch => ch.Id == gChatId);
 
-            var chatMessage = new P2PChatMessage(content, _timeProvider.GetUtcNow().UtcDateTime, sender.Id, chat.Id);
-            await _dbContext.Set<P2PChatMessage>().AddAsync(chatMessage);
-            await _dbContext.SaveChangesAsync();
+			var chatMessage = new P2PChatMessage(content, _timeProvider.GetUtcNow().UtcDateTime, sender.Id, chat.Id);
+			await _dbContext.Set<P2PChatMessage>().AddAsync(chatMessage);
+			await _dbContext.SaveChangesAsync();
 
-            var interlocutorExternalId = chat.Users.First(u => u.ExternalId != senderExternalId).ExternalId;
+			var interlocutorExternalId = chat.Users.First(u => u.ExternalId != senderExternalId).ExternalId;
 
-            var interlocutorOnline = _onlineUsers.TryGetValue(interlocutorExternalId, out var interlocutorConnectionId);
+			var interlocutorOnline = _onlineUsers.TryGetValue(interlocutorExternalId, out var interlocutorConnectionId);
 
-            if (interlocutorOnline)
-                await Clients
-                    .Client(interlocutorConnectionId!)
-                    .SendAsync("newChatMessage",new SendMessageToInterlocutorDto(content, chatMessage.CreatedDate));
-        }
-    }
+			if (interlocutorOnline)
+				await Clients
+					.Client(interlocutorConnectionId!)
+					.SendAsync("newChatMessage", new SendMessageToInterlocutorDto(content, chatMessage.CreatedDate));
+		}
+	}
 
-    private Guid GetCurrentExternalId()
-    {
-        return Guid.Parse(Context.User!.Claims.First(c => c.Type == KnownClaims.ExternalId).Value);
-    }
+	private Guid GetCurrentExternalId()
+	{
+		return Guid.Parse(Context.User!.Claims.First(c => c.Type == KnownClaims.ExternalId).Value);
+	}
 }
 
 /// <summary>

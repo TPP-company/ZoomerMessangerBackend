@@ -5,8 +5,8 @@
 /// </summary>
 public class KnownClaims
 {
-    /// <summary>
-    /// Идентификатор.
-    /// </summary>
-    public const string ExternalId = "externalId";
+	/// <summary>
+	/// Идентификатор.
+	/// </summary>
+	public const string ExternalId = "externalId";
 }

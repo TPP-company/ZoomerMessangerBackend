@@ -5,17 +5,17 @@ namespace ZM.Application;
 
 public static class ConfigureServices
 {
-    public static IServiceCollection AddApplication(this IServiceCollection services)
-    {
-        var assembly = Assembly.GetExecutingAssembly();
+	public static IServiceCollection AddApplication(this IServiceCollection services)
+	{
+		var assembly = Assembly.GetExecutingAssembly();
 
-        services.AddMediatR(cfg =>
-        {
-            cfg.RegisterServicesFromAssembly(assembly);
-        });
+		services.AddMediatR(cfg =>
+		{
+			cfg.RegisterServicesFromAssembly(assembly);
+		});
 
-        services.AddAutoMapper(assembly);
+		services.AddAutoMapper(assembly);
 
-        return services;
-    }
+		return services;
+	}
 }

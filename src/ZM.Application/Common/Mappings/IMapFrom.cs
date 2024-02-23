@@ -8,11 +8,11 @@ namespace ZM.Application.Common.Mappings;
 /// <typeparam name="T">Тип из которого нужно смапить.</typeparam>
 public interface IMapFrom<T>
 {
-    /// <summary>
-    /// Конфигурация маппинга.
-    /// </summary>
-    void Mapping(Profile profile)
-    {
-        profile.CreateMap(typeof(T), GetType());
-    }
+	/// <summary>
+	/// Конфигурация маппинга.
+	/// </summary>
+	void Mapping(Profile profile)
+	{
+		profile.CreateMap(typeof(T), GetType());
+	}
 }

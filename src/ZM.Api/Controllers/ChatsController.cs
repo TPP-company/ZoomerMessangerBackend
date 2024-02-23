@@ -15,10 +15,10 @@ namespace ZM.Api.Controllers;
 [Route("")]
 public class ChatsController : ApiControllerBase
 {
-    /// <summary>
-    /// Получить все свои чаты.
-    /// </summary>
-    [HttpGet]
-    public Task<Result<IReadOnlyCollection<GetChatsDto>>> GetAsync()
-        => Sender.Send(new GetChatsQuery());
+	/// <summary>
+	/// Получить все свои чаты.
+	/// </summary>
+	[HttpGet]
+	public Task<Result<IReadOnlyCollection<GetChatsDto>>> GetAsync()
+		=> Sender.Send(new GetChatsQuery());
 }

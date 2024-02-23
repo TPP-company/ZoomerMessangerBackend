@@ -17,7 +17,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZM.Infrastructure", "src\ZM
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZM.Application.Tests", "tests\ZM.Application\ZM.Application.Tests.csproj", "{755E0887-C988-4583-9C4A-A07F53BDEC57}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZM.Common", "src\ZM.Common\ZM.Common.csproj", "{D434D0FE-8F69-4DCB-9462-F48B895A5CA2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZM.Common", "src\ZM.Common\ZM.Common.csproj", "{D434D0FE-8F69-4DCB-9462-F48B895A5CA2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D18B7240-541F-41D3-B97D-020A35E2CEF0}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

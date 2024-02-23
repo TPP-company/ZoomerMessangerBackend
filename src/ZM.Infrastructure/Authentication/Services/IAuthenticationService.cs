@@ -8,15 +8,15 @@ namespace ZM.Infrastructure.Authentication.Services;
 /// </summary>
 public interface IAuthenticationService
 {
-    /// <summary>
-    /// Выполнить вход.
-    /// </summary>
-    /// <param name="request">Информация для входа.</param>
-    Task<Result<TokenDto>> SignInAsync(SignInRequest request);
+	/// <summary>
+	/// Выполнить вход.
+	/// </summary>
+	/// <param name="request">Информация для входа.</param>
+	Task<Result<TokenDto>> SignInAsync(SignInRequest request);
 
-    /// <summary>
-    /// Зарегистрироваться.
-    /// </summary>
-    /// <param name="request">Информация для регистрации.</param>
-    Task<Result<ResultDataEmpty>> SignUpAsync(SignUpRequest request);
+	/// <summary>
+	/// Зарегистрироваться.
+	/// </summary>
+	/// <param name="request">Информация для регистрации.</param>
+	Task<Result<ResultDataEmpty>> SignUpAsync(SignUpRequest request);
 }

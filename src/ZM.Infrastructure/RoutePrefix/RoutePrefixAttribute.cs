@@ -3,5 +3,5 @@
 [AttributeUsage(AttributeTargets.Class)]
 public class RoutePrefixAttribute(string prefix) : Attribute
 {
-    public string Prefix { get; } = prefix;
+	public string Prefix { get; } = prefix;
 }

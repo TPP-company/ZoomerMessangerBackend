@@ -5,13 +5,13 @@
 /// </summary>
 public interface ICurrentUser
 {
-    /// <summary>
-    /// Идентификатор.
-    /// </summary>
-    public Guid ExternalId { get; }
+	/// <summary>
+	/// Идентификатор.
+	/// </summary>
+	public Guid ExternalId { get; }
 
-    /// <summary>
-    /// Текущего пользователь неизвестен.
-    /// </summary>
-    public bool IsUnknown { get; }
+	/// <summary>
+	/// Текущего пользователь неизвестен.
+	/// </summary>
+	public bool IsUnknown { get; }
 }

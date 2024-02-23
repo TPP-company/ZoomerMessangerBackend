@@ -7,10 +7,10 @@ namespace ZM.Infrastructure.Authentication.Token;
 /// </summary>
 internal interface ITokenService
 {
-    /// <summary>
-    /// Сгенерировать.
-    /// </summary>
-    /// <param name="authUser">Пользователь.</param>
-    /// <returns>Токен.</returns>
-    public TokenDto Generate(AuthUser authUser);
+	/// <summary>
+	/// Сгенерировать.
+	/// </summary>
+	/// <param name="authUser">Пользователь.</param>
+	/// <returns>Токен.</returns>
+	public TokenDto Generate(AuthUser authUser);
 }

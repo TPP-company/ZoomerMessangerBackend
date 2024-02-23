@@ -5,5 +5,5 @@
 /// </summary>
 public readonly struct ResultDataEmpty
 {
-    public static readonly ResultDataEmpty Value = default;
+	public static readonly ResultDataEmpty Value = default;
 }
