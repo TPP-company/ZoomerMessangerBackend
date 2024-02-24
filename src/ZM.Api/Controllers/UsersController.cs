@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ZM.Application.Dependencies.Infrastructure.Persistence;
 using ZM.Application.UseCases.Users.GetOwnUser;
@@ -13,6 +14,7 @@ namespace ZM.Api.Controllers;
 /// </summary>
 [ApiController]
 [Route("users")]
+[Authorize]
 public class UsersController(IDbContext _dbContext) : ApiControllerBase
 {
 
@@ -20,6 +22,7 @@ public class UsersController(IDbContext _dbContext) : ApiControllerBase
 	/// Получить всех пользователей.
 	/// </summary>
 	[HttpGet]
+	[AllowAnonymous]
 	public Task<User[]> GetAll()
 		=> _dbContext.Set<User>().ToArrayAsync();
 
