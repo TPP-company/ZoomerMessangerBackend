@@ -5,6 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using ZM.Application.Dependencies.Infrastructure.Authentication;
 using ZM.Common.Extensions;
+using ZM.Common.Hubs;
 using ZM.Infrastructure.Authentication.Entities;
 using ZM.Infrastructure.Authentication.Services;
 using ZM.Infrastructure.Authentication.Token;
@@ -38,6 +39,20 @@ public static class ConfigureServices
 					ValidIssuer = tokenSettings.Issuer,
 					ValidAudience = tokenSettings.Audience,
 					IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenSettings.Secret)),
+				};
+
+				opt.Events = new JwtBearerEvents
+				{
+					OnMessageReceived = context =>
+					{
+						if (context.Request.Path.Value!.StartsWith(HubsRoutes.BaseUrl) && 
+							context.Request.Query.TryGetValue(HubsRoutes.TokenQueryParameter, out var token))
+						{
+							context.Token = token;
+						}
+
+						return Task.CompletedTask;
+					}
 				};
 			});
 
