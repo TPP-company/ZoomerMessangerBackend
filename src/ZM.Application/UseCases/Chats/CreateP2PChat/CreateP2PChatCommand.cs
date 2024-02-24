@@ -5,7 +5,7 @@ using ZM.Application.Dependencies.Infrastructure.Authentication;
 using ZM.Application.Dependencies.Infrastructure.Persistence;
 using ZM.Common.Results;
 using ZM.Domain.Chats;
-using ZM.Domain.Entities;
+using ZM.Domain.Users;
 
 namespace ZM.Application.UseCases.Chats.CreateP2PChat;
 

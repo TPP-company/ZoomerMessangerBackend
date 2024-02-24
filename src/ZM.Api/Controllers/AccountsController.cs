@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ZM.Common.Results;
 using ZM.Infrastructure.Authentication.Services;
-using ZM.Infrastructure.Authentication.Token;
 
 namespace ZM.Api.Controllers;
 
@@ -13,28 +11,14 @@ namespace ZM.Api.Controllers;
 public class AccountsController(IAuthenticationService _authenticationService) : ApiControllerBase
 {
 	/// <summary>
-	/// Выполнить вход.
-	/// </summary>
-	/// <param name="request">Информация для входа.</param>
-	[HttpPost("sign-in")]
-	public async Task<ActionResult<Result<TokenDto>>> SignInAsync(SignInRequest request)
-	{
-		var result = await _authenticationService.SignInAsync(request);
-
-		return result.IsFailure ? BadRequest(result.Error) : Ok(result.Data);
-	}
-
-	/// <summary>
 	/// Зарегистрироваться.
 	/// </summary>
 	/// <param name="request">Информация для регистрации.</param>
-	[HttpPost("sign-up")]
+	[HttpPost]
 	public async Task<ActionResult> SignUpAsync(SignUpRequest request)
 	{
 		var result = await _authenticationService.SignUpAsync(request);
 
 		return result.IsFailure ? BadRequest(result.Error) : Ok();
 	}
-
-	//TODO: Refresh token
 }
