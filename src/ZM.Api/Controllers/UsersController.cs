@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ZM.Application.Dependencies.Infrastructure.Persistence;
+using ZM.Application.UseCases.Users.GetOwnUser;
 using ZM.Application.UseCases.Users.UpdateUser;
 using ZM.Common.Results;
 using ZM.Domain.Entities;
@@ -26,9 +27,20 @@ public class UsersController(IDbContext _dbContext) : ApiControllerBase
 	/// Обновить информацию о себе
 	/// </summary>
 	/// <param name="userCommand">string About, Guid AvatarId</param>
-	[HttpPatch("own/update")]
+	[HttpPatch("own")]
 	public Task<Result<ResultDataEmpty>> UpdateOwnProfile([FromBody] UpdateUserCommand userCommand)
 	{
 		return Sender.Send(userCommand);
+	}
+
+	
+	/// <summary>
+	/// Получение информации о текущем пользователе
+	/// </summary>
+	/// <returns></returns>
+	[HttpGet("own")]
+	public Task<Result<GetOwnUserResponse>> GetCurrentUser()
+	{
+		return Sender.Send(new GetOwnUserQuery());
 	}
 }
