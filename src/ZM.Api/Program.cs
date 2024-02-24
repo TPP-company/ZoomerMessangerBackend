@@ -1,5 +1,6 @@
 using ZM.Api.Hubs;
 using ZM.Application;
+using ZM.Common.Hubs;
 using ZM.Infrastructure;
 using ZM.Infrastructure.Persistence;
 using ZM.Infrastructure.RoutePrefix;
@@ -10,14 +11,18 @@ builder.Services.AddControllers(opts =>
 {
 	opts.Conventions.Add(new RoutePrefixConvention());
 });
-builder.Services.AddCors(option =>
+
+builder.Services.AddCors(options =>
 {
-	option.AddPolicy("AllowAll",
-		builder => builder
-		.AllowAnyOrigin()
-		.AllowAnyMethod()
-		.AllowAnyHeader());
+	options.AddDefaultPolicy(builder =>
+		{
+			builder.AllowAnyHeader()
+				.AllowAnyMethod()
+				.SetIsOriginAllowed((host) => true)
+				.AllowCredentials();
+		});
 });
+
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSignalR();
@@ -37,14 +42,16 @@ if (app.Environment.IsDevelopment())
 {
 	app.UseSwagger();
 	app.UseSwaggerUI();
-	app.UseCors("AllowAll");
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors();
+
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapHub<P2PChatHub>("/hubs/chats/p2p");
+app.MapHub<P2PChatHub>(HubsRoutes.P2PChatsHubs);
 
 app.MapControllers();
 
