@@ -24,8 +24,8 @@ public class GetP2PChatMessagesQueryHandler(IDbContext _dbContext, ICurrentUser 
 	public async Task<PaginatedResponse<P2PChatMessageDto>> Handle(GetP2PChatMessagesQuery request, CancellationToken cancellationToken)
 	{
 		var chatExists = await _dbContext.Set<P2PChat>()
-			.SingleOrDefaultAsync(
-				ch => ch.Id == request.ChatId && ch.Users.Any(u => u.ExternalId == _currentUser.ExternalId),
+			.FirstOrDefaultAsync(
+				ch => ch.Id == request.ChatId && ch.Users.Any(u => u.Id == _currentUser.Id),
 				cancellationToken)
 			?? throw new ResourceNotFoundException();
 

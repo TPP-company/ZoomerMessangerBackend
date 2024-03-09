@@ -8,6 +8,11 @@ public interface ICurrentUser
 	/// <summary>
 	/// Идентификатор.
 	/// </summary>
+	public Guid Id { get; }
+
+	/// <summary>
+	/// External Идентификатор.
+	/// </summary>
 	public Guid ExternalId { get; }
 
 	/// <summary>

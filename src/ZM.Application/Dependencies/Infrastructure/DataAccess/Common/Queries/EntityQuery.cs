@@ -10,7 +10,7 @@ using ZM.Domain.Common;
 
 namespace ZM.Application.Dependencies.Infrastructure.DataAccess.Common.Queries;
 
-internal static class EntityQuery
+public static class EntityQuery
 {
 	/// <summary>
 	/// Получить сущность по идентификатору.
@@ -21,7 +21,7 @@ internal static class EntityQuery
 		CancellationToken cancellationToken = default)
 		where TEntity : Entity
 	{
-		return entities.SingleOrDefaultAsync(x => x.Id == id, cancellationToken);
+		return entities.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
 	}
 
 	/// <summary>
@@ -37,7 +37,7 @@ internal static class EntityQuery
 	{
 		return entities
 			.ProjectTo<TDto>(mapper.ConfigurationProvider)
-			.SingleOrDefaultAsync(x => x.Id == id, cancellationToken);
+			.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
 	}
 
 	/// <summary>

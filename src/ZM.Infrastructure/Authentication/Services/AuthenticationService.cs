@@ -29,7 +29,7 @@ internal class AuthenticationService(
 		var user = _dbContext.Set<User>().SingleOrDefault(u => u.ExternalId == authUser!.Id)
 			?? throw new Exception($"User with externalId {authUser!.Id} not exists");
 
-		return _jwtTokenService.Generate(authUser!);
+		return _jwtTokenService.Generate(authUser!, user);
 	}
 
 	public async Task<Result<ResultDataEmpty>> SignUpAsync(SignUpRequest request)
