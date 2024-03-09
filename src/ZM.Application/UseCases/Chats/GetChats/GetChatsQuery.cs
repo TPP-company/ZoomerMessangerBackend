@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using ZM.Application.Dependencies.Infrastructure.Authentication;
 using ZM.Application.Dependencies.Infrastructure.Persistence;
 using ZM.Common.Results;
+using ZM.Domain.ChatGroups;
 using ZM.Domain.Chats;
 
 namespace ZM.Application.UseCases.Chats.GetChats;
@@ -17,20 +18,26 @@ public class GetChatsQueryHandler(IDbContext _dbContext, ICurrentUser _currentUs
 {
 	public async Task<Result<IReadOnlyCollection<GetChatsDto>>> Handle(GetChatsQuery request, CancellationToken cancellationToken)
 	{
-		var dtos = await _dbContext.Set<P2PChat>()
-			.Where(chat => chat.Users.Any(u => u.Id == _currentUser.Id))
+		var p2pChats = await _dbContext.Set<P2PChat>()
+			.Where(chat => chat.Members.Any(u => u.Id == _currentUser.Id))
 			.Select(chat => new GetChatsDto()
 			{
 				Id = chat.Id,
-				Interlocutor = new()
-				{
-					Id = chat.Users.First(u => u.Id != _currentUser.Id).Id,
-					UserName = chat.Users.First(u => u.Id != _currentUser.Id).UserName,
-				}
+				Title = chat.Members.First(u => u.Id != _currentUser.Id).UserName,
+				InterlocutorId = chat.Members.First(u => u.Id != _currentUser.Id).Id
 			})
 			.ToListAsync(cancellationToken);
 
-		return dtos;
+		var chatGroups = await _dbContext.Set<ChatGroup>()
+			.Where(chat => chat.Members.Any(u => u.Id == _currentUser.Id))
+			.Select(chat => new GetChatsDto()
+			{
+				Id = chat.Id,
+				Title = chat.Name,
+			})
+			.ToListAsync(cancellationToken);
+
+		return p2pChats.Concat(chatGroups).ToList().AsReadOnly();
 	}
 }
 
@@ -42,23 +49,12 @@ public class GetChatsDto
 	public Guid Id { get; set; }
 
 	/// <summary>
-	/// Собеседник.
+	/// Название.
 	/// </summary>
-	public InterlocutorDto Interlocutor { get; set; } = null!;
-}
-
-/// <summary>
-/// Собеседник.
-/// </summary>
-public class InterlocutorDto
-{
-	/// <summary>
-	/// Идентификатор.
-	/// </summary>
-	public Guid Id { get; set; }
+	public string Title { get; set; } = null!;
 
 	/// <summary>
-	/// Имя пользователя.
+	/// Идентификатор собеседника.
 	/// </summary>
-	public string UserName { get; set; } = null!;
+	public Guid? InterlocutorId { get; set; }
 }

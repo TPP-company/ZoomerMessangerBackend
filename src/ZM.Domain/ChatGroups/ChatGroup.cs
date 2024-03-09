@@ -8,10 +8,13 @@ namespace ZM.Domain.ChatGroups;
 /// </summary>
 public class ChatGroup : Chat
 {
-	public ChatGroup(string name, Guid creatorId)
+	private ChatGroup() { }
+
+	public ChatGroup(string name, Guid creatorId, ICollection<User> members)
 	{
 		Name = name;
 		CreatorId = creatorId;
+		Members = members;
 	}
 
 	/// <summary>

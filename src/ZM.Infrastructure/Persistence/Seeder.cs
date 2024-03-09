@@ -40,11 +40,11 @@ public class Seeder
 		CreateP2PChat(ismailId, maflendId);
 	}
 
-	private static void CreateP2PChat(Guid userId1, Guid userId2)
-	{
-		Guid[] users = [userId1, userId2];
-		var isChatUserExist = appDbContext.P2PChats.Any(x => x.Users.All(user => users.Contains(user.Id)));
-		if (isChatUserExist) return;
+    private static void CreateP2PChat(Guid userId1, Guid userId2)
+    {
+        Guid[] users = [userId1, userId2];
+        var isChatUserExist = appDbContext.P2PChats.Any(x => x.Members.All(user => users.Contains(user.Id)));
+        if (isChatUserExist) return;
 
 		var user1 = appDbContext.Users.First(x => x.Id == userId1);
 		var user2 = appDbContext.Users.First(x => x.Id == userId2);

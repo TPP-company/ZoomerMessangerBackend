@@ -22,7 +22,7 @@ public class FindUserForCreateP2PChatQueryHandler(IDbContext _dbContext, IMapper
 	{
 		return await _dbContext.Set<User>()
 			.WhereIf(!string.IsNullOrWhiteSpace(request.UserName), u => u.UserName.StartsWith(request.UserName!))
-			.Where(u => !u.P2PChats.Any(p2p => p2p.Users.Any(u => u.Id == _currentUser.Id)))
+			.Where(u => !u.P2PChats.Any(p2p => p2p.Members.Any(u => u.Id == _currentUser.Id)))
 			.GetPaginatedResponseAsync<User, FindUserForCreateP2PChatResponse>(
 				request,
 				_mapper,
