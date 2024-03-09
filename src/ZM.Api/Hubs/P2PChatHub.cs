@@ -56,14 +56,14 @@ public class P2PChatHub(IDbContext _dbContext, TimeProvider _timeProvider) : Hub
 		{
 			var sender = await _dbContext.Set<User>().GetByIdAsync(senderId, default);
 			var chat = await _dbContext.Set<P2PChat>()
-				.Include(ch => ch.Users)
+				.Include(ch => ch.Members)
 				.SingleOrDefaultAsync(ch => ch.Id == gChatId);
 
 			var chatMessage = new P2PChatMessage(content, _timeProvider.GetUtcNow().UtcDateTime, sender.Id, chat.Id);
 			await _dbContext.Set<P2PChatMessage>().AddAsync(chatMessage);
 			await _dbContext.SaveChangesAsync();
 
-			var interlocutorId = chat.Users.First(u => u.Id != senderId).Id;
+            var interlocutorId = chat.Members.First(u => u.Id != senderId).Id;
 
 			var interlocutorOnline = _onlineUsers.TryGetValue(interlocutorId, out var interlocutorConnectionId);
 

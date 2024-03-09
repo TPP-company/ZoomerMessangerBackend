@@ -10,7 +10,7 @@ using ZM.Common.Results;
 namespace ZM.Api.Controllers;
 
 /// <summary>
-/// Апи чатов.
+/// Апи P2P чатов.
 /// </summary>
 [Authorize]
 [ApiController]

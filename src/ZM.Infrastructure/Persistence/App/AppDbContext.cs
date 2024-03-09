@@ -82,8 +82,8 @@ internal class AppDbContext : DbContext, IDbContext
 		modelBuilder.Entity<ChatGroup>()
 			.HasOne(cg => cg.Creator);
 
-		modelBuilder.Entity<ChatGroup>()
-			.HasMany(cg => cg.Users)
-			.WithMany(c => c.ChatGroups);
-	}
+        modelBuilder.Entity<ChatGroup>()
+            .HasMany(cg => cg.Members)
+            .WithMany(c => c.ChatGroups);
+    }
 }

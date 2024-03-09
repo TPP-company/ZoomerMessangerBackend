@@ -11,13 +11,13 @@ public class P2PChat : Chat
 	private P2PChat()
 	{ }
 
-	public P2PChat(User user1, User user2)
-	{
-		Users ??= [];
+    public P2PChat(User user1, User user2)
+    {
+        Members ??= [];
 
-		Users.Add(user1);
-		Users.Add(user2);
-	}
+        Members.Add(user1);
+        Members.Add(user2);
+    }
 
 	/// <summary>
 	/// Сообщения.

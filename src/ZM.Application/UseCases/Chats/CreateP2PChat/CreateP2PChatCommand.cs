@@ -27,7 +27,7 @@ public class CreateP2PChatCommandHandler(IDbContext _dbContext, ICurrentUser _cu
 
 		Guid[] userIds = [interlocutor.Id, currentUser!.Id];
 
-		var chatExists = await _dbContext.Set<P2PChat>().AnyAsync(c => c.Users.All(u => userIds.Contains(u.Id)), cancellationToken);
+        var chatExists = await _dbContext.Set<P2PChat>().AnyAsync(c => c.Members.All(u => userIds.Contains(u.Id)), cancellationToken);
 
 		if (chatExists)
 			throw new ValidationException($"Чат с пользователем {interlocutor.Id} уже существует");
