@@ -18,14 +18,14 @@ public class GetChatsQueryHandler(IDbContext _dbContext, ICurrentUser _currentUs
 	public async Task<Result<IReadOnlyCollection<GetChatsDto>>> Handle(GetChatsQuery request, CancellationToken cancellationToken)
 	{
 		var dtos = await _dbContext.Set<P2PChat>()
-			.Where(chat => chat.Users.Any(u => u.ExternalId == _currentUser.ExternalId))
+			.Where(chat => chat.Users.Any(u => u.Id == _currentUser.Id))
 			.Select(chat => new GetChatsDto()
 			{
 				Id = chat.Id,
 				Interlocutor = new()
 				{
-					Id = chat.Users.First(u => u.ExternalId != _currentUser.ExternalId).Id,
-					UserName = chat.Users.First(u => u.ExternalId != _currentUser.ExternalId).UserName,
+					Id = chat.Users.First(u => u.Id != _currentUser.Id).Id,
+					UserName = chat.Users.First(u => u.Id != _currentUser.Id).UserName,
 				}
 			})
 			.ToListAsync(cancellationToken);

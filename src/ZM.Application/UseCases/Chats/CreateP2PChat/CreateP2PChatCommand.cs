@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using ZM.Application.Common.Exceptions;
 using ZM.Application.Dependencies.Infrastructure.Authentication;
+using ZM.Application.Dependencies.Infrastructure.DataAccess.Common.Queries;
 using ZM.Application.Dependencies.Infrastructure.Persistence;
 using ZM.Common.Results;
 using ZM.Domain.Chats;
@@ -22,9 +23,9 @@ public class CreateP2PChatCommandHandler(IDbContext _dbContext, ICurrentUser _cu
 		var interlocutor = await _dbContext.Set<User>().SingleOrDefaultAsync(u => u.Id == request.InterlocutorId, cancellationToken)
 			?? throw new ValidationException($"Собеседник с id={request.InterlocutorId} не найден");
 
-		var currentUser = await _dbContext.Set<User>().SingleAsync(u => u.ExternalId == _currentUser.ExternalId, cancellationToken);
+		var currentUser = await _dbContext.Set<User>().GetByIdAsync(_currentUser.Id, cancellationToken);
 
-		Guid[] userIds = [interlocutor.Id, currentUser.Id];
+		Guid[] userIds = [interlocutor.Id, currentUser!.Id];
 
 		var chatExists = await _dbContext.Set<P2PChat>().AnyAsync(c => c.Users.All(u => userIds.Contains(u.Id)), cancellationToken);
 

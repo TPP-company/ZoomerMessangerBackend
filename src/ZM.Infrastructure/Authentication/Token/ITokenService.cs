@@ -1,4 +1,5 @@
-﻿using ZM.Infrastructure.Authentication.Entities;
+﻿using ZM.Domain.Users;
+using ZM.Infrastructure.Authentication.Entities;
 
 namespace ZM.Infrastructure.Authentication.Token;
 
@@ -11,6 +12,7 @@ internal interface ITokenService
 	/// Сгенерировать.
 	/// </summary>
 	/// <param name="authUser">Пользователь.</param>
+	/// <param name="user">Пользователь.</param>
 	/// <returns>Токен.</returns>
-	public TokenDto Generate(AuthUser authUser);
+	public TokenDto Generate(AuthUser authUser, User user);
 }

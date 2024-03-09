@@ -34,6 +34,7 @@ public static class ConfigureServices
 			})
 			.AddJwtBearer(opt =>
 			{
+				opt.MapInboundClaims = false;
 				opt.TokenValidationParameters = new()
 				{
 					ValidIssuer = tokenSettings.Issuer,

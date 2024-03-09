@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
-using ZM.Application.Dependencies.Infrastructure.Authentication;
+using System.IdentityModel.Tokens.Jwt;
 using ZM.Application.Dependencies.Infrastructure.Persistence;
 using ZM.Domain.Chats;
+using ZM.Application.Dependencies.Infrastructure.DataAccess.Common.Queries;
 using ZM.Domain.Users;
 
 namespace ZM.Api.Hubs;
@@ -15,19 +16,19 @@ namespace ZM.Api.Hubs;
 public class P2PChatHub(IDbContext _dbContext, TimeProvider _timeProvider) : Hub
 {
 	/// <summary>
-	/// Текущие пользователи подключенные к хабу (т.е. онлайн). Key: externalId, Value: connectionId
+	/// Текущие пользователи подключенные к хабу (т.е. онлайн). Key: userId, Value: connectionId
 	/// </summary>
 	private static readonly Dictionary<Guid, string> _onlineUsers = [];
 
 	public override async Task OnConnectedAsync()
 	{
-		var userExternalId = GetCurrentExternalId();
+		var userId = GetCurrentUserId();
 
-		var isUserConnected = _onlineUsers.ContainsKey(userExternalId);
+		var isUserConnected = _onlineUsers.ContainsKey(userId);
 
 		if (!isUserConnected)
 		{
-			_onlineUsers.Add(userExternalId, Context.ConnectionId);
+			_onlineUsers.Add(userId, Context.ConnectionId);
 		}
 
 		await base.OnConnectedAsync();
@@ -35,8 +36,8 @@ public class P2PChatHub(IDbContext _dbContext, TimeProvider _timeProvider) : Hub
 
 	public override Task OnDisconnectedAsync(Exception exception)
 	{
-		var userExternalId = GetCurrentExternalId();
-		_onlineUsers.Remove(userExternalId);
+		var userId = GetCurrentUserId();
+		_onlineUsers.Remove(userId);
 
 		return base.OnDisconnectedAsync(exception);
 	}
@@ -49,11 +50,11 @@ public class P2PChatHub(IDbContext _dbContext, TimeProvider _timeProvider) : Hub
 
 		var gChatId = Guid.Parse(chatId);
 
-		var senderExternalId = GetCurrentExternalId();
+		var senderId = GetCurrentUserId();
 
-		if (_onlineUsers.TryGetValue(senderExternalId, out string connectionId))
+		if (_onlineUsers.TryGetValue(senderId, out string connectionId))
 		{
-			var sender = await _dbContext.Set<User>().SingleOrDefaultAsync(u => u.ExternalId == senderExternalId);
+			var sender = await _dbContext.Set<User>().GetByIdAsync(senderId, default);
 			var chat = await _dbContext.Set<P2PChat>()
 				.Include(ch => ch.Users)
 				.SingleOrDefaultAsync(ch => ch.Id == gChatId);
@@ -62,9 +63,9 @@ public class P2PChatHub(IDbContext _dbContext, TimeProvider _timeProvider) : Hub
 			await _dbContext.Set<P2PChatMessage>().AddAsync(chatMessage);
 			await _dbContext.SaveChangesAsync();
 
-			var interlocutorExternalId = chat.Users.First(u => u.ExternalId != senderExternalId).ExternalId;
+			var interlocutorId = chat.Users.First(u => u.Id != senderId).Id;
 
-			var interlocutorOnline = _onlineUsers.TryGetValue(interlocutorExternalId, out var interlocutorConnectionId);
+			var interlocutorOnline = _onlineUsers.TryGetValue(interlocutorId, out var interlocutorConnectionId);
 
 			if (interlocutorOnline)
 				await Clients
@@ -73,9 +74,9 @@ public class P2PChatHub(IDbContext _dbContext, TimeProvider _timeProvider) : Hub
 		}
 	}
 
-	private Guid GetCurrentExternalId()
+	private Guid GetCurrentUserId()
 	{
-		return Guid.Parse(Context.User!.Claims.First(c => c.Type == KnownClaims.ExternalId).Value);
+		return Guid.Parse(Context.User!.Claims.First(c => c.Type == JwtRegisteredClaimNames.Sub).Value);
 	}
 }
 

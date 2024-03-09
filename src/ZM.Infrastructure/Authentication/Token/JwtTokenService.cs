@@ -3,6 +3,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using ZM.Application.Dependencies.Infrastructure.Authentication;
+using ZM.Domain.Users;
 using ZM.Infrastructure.Authentication.Entities;
 
 namespace ZM.Infrastructure.Authentication.Token;
@@ -12,9 +13,9 @@ namespace ZM.Infrastructure.Authentication.Token;
 /// </summary>
 internal class JwtTokenService(TokenSettings _tokenSettings) : ITokenService
 {
-	public TokenDto Generate(AuthUser authUser)
+	public TokenDto Generate(AuthUser authUser, User user)
 	{
-		var claims = CreateClaims(authUser);
+		var claims = CreateClaims(authUser, user);
 		var token = CreateJwtSecurityToken(claims);
 
 		var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
@@ -35,10 +36,11 @@ internal class JwtTokenService(TokenSettings _tokenSettings) : ITokenService
 			signingCredentials: creds);
 	}
 
-	private static List<Claim> CreateClaims(AuthUser authUser)
+	private static List<Claim> CreateClaims(AuthUser authUser, User user)
 	{
 		return [
-			new Claim(ClaimTypes.Name, authUser.UserName!),
+			new Claim(JwtRegisteredClaimNames.Name, authUser.UserName!),
+			new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
 			new Claim(KnownClaims.ExternalId, authUser.Id.ToString())];
 	}
 }

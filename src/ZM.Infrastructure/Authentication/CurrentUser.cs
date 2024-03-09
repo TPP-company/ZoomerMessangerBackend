@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using System.IdentityModel.Tokens.Jwt;
 using ZM.Application.Dependencies.Infrastructure.Authentication;
 
 namespace ZM.Infrastructure.Authentication;
@@ -15,6 +16,10 @@ internal class CurrentUser : ICurrentUser
 		if (httpContext is null)
 			return;
 
+		Id = httpContext.User.FindFirst(JwtRegisteredClaimNames.Sub) is null ?
+			UnknownId :
+			Guid.Parse(httpContext.User.FindFirst(JwtRegisteredClaimNames.Sub)!.Value);
+
 		ExternalId = httpContext.User.FindFirst(KnownClaims.ExternalId) is null ?
 			UnknownId :
 			Guid.Parse(httpContext.User.FindFirst(KnownClaims.ExternalId)!.Value);
@@ -23,6 +28,7 @@ internal class CurrentUser : ICurrentUser
 			IsUnknown = false;
 	}
 
+	public Guid Id { get; } = UnknownId;
 	public Guid ExternalId { get; } = UnknownId;
 	public bool IsUnknown { get; } = true;
 }

@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using ZM.Application.Common.Mappings;
 using ZM.Application.Dependencies.Infrastructure.Authentication;
+using ZM.Application.Dependencies.Infrastructure.DataAccess.Common.Queries;
 using ZM.Application.Dependencies.Infrastructure.Persistence;
 using ZM.Common.Results;
 using ZM.Domain.Users;
@@ -14,15 +14,15 @@ namespace ZM.Application.UseCases.Users.GetSelf;
 /// </summary>
 public record GetSelfUserQuery : IRequest<Result<GetSelfUserResponse>>;
 
-public class GetSelfUserQueryHandler(IDbContext _dbContext, ICurrentUser currentUser, IMapper mapper)
+public class GetSelfUserQueryHandler(IDbContext _dbContext, ICurrentUser _currentUser, IMapper _mapper)
 	: IRequestHandler<GetSelfUserQuery, Result<GetSelfUserResponse>>
 {
 	public async Task<Result<GetSelfUserResponse>> Handle(GetSelfUserQuery request, CancellationToken cancellationToken)
 	{
 		var findUser = await _dbContext.Set<User>()
-			.FirstAsync(user => user.ExternalId == currentUser.ExternalId, cancellationToken: cancellationToken);
+			.GetByIdAsync(_currentUser.Id, cancellationToken);
 
-		return mapper.Map<GetSelfUserResponse>(findUser);
+		return _mapper.Map<GetSelfUserResponse>(findUser);
 	}
 }
 
