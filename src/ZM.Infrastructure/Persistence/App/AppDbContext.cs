@@ -4,7 +4,7 @@ using System.Data;
 using ZM.Application.Dependencies.Infrastructure.Persistence;
 using ZM.Domain.ChatGroups;
 using ZM.Domain.Chats;
-using ZM.Domain.Entities;
+using ZM.Domain.Users;
 
 namespace ZM.Infrastructure.Persistence.App;
 internal class AppDbContext : DbContext, IDbContext

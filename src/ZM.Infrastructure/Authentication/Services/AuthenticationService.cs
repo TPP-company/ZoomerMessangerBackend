@@ -2,7 +2,7 @@
 using System.Transactions;
 using ZM.Application.Dependencies.Infrastructure.Persistence;
 using ZM.Common.Results;
-using ZM.Domain.Entities;
+using ZM.Domain.Users;
 using ZM.Infrastructure.Authentication.Entities;
 using ZM.Infrastructure.Authentication.Token;
 

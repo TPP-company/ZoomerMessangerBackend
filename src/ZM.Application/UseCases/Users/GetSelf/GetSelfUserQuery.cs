@@ -5,29 +5,29 @@ using ZM.Application.Common.Mappings;
 using ZM.Application.Dependencies.Infrastructure.Authentication;
 using ZM.Application.Dependencies.Infrastructure.Persistence;
 using ZM.Common.Results;
-using ZM.Domain.Entities;
+using ZM.Domain.Users;
 
-namespace ZM.Application.UseCases.Users.GetOwnUser;
+namespace ZM.Application.UseCases.Users.GetSelf;
 
 /// <summary>
-/// Запрос получение для текущего пользователя 
+/// Запрос получение информации о себе
 /// </summary>
-public record GetOwnUserQuery : IRequest<Result<GetOwnUserResponse>>;
-public class GetOwnUserQueryHandler(IDbContext _dbContext, ICurrentUser currentUser, IMapper mapper) : IRequestHandler<GetOwnUserQuery, Result<GetOwnUserResponse>>
+public record GetSelfUserQuery : IRequest<Result<GetSelfUserResponse>>;
+
+public class GetSelfUserQueryHandler(IDbContext _dbContext, ICurrentUser currentUser, IMapper mapper)
+	: IRequestHandler<GetSelfUserQuery, Result<GetSelfUserResponse>>
 {
-
-	public async Task<Result<GetOwnUserResponse>> Handle(GetOwnUserQuery request, CancellationToken cancellationToken)
+	public async Task<Result<GetSelfUserResponse>> Handle(GetSelfUserQuery request, CancellationToken cancellationToken)
 	{
-		var findUser = await _dbContext.Set<User>().FirstAsync(user => user.ExternalId == currentUser.ExternalId);
+		var findUser = await _dbContext.Set<User>()
+			.FirstAsync(user => user.ExternalId == currentUser.ExternalId, cancellationToken: cancellationToken);
 
-		return mapper.Map<GetOwnUserResponse>(findUser);
+		return mapper.Map<GetSelfUserResponse>(findUser);
 	}
 }
 
-
-public record GetOwnUserResponse : IMapFrom<User>
+public record GetSelfUserResponse : IMapFrom<User>
 {
-
 	public Guid Id { get; init; }
 	public string UserName { get; init; } = null!;
 
@@ -50,5 +50,4 @@ public record GetOwnUserResponse : IMapFrom<User>
 	/// Идентификатор внешнего пользователя.
 	/// </summary>
 	public Guid ExternalId { get; init; }
-
 }

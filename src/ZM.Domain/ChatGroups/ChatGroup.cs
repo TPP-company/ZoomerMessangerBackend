@@ -1,5 +1,5 @@
 ﻿using ZM.Domain.Common;
-using ZM.Domain.Entities;
+using ZM.Domain.Users;
 
 namespace ZM.Domain.ChatGroups;
 

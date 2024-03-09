@@ -1,4 +1,4 @@
-﻿using ZM.Domain.Entities;
+﻿using ZM.Domain.Users;
 
 namespace ZM.Domain.Common;
 

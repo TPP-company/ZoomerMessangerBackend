@@ -1,11 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using ZM.Application.Dependencies.Infrastructure.Persistence;
-using ZM.Application.UseCases.Users.GetOwnUser;
-using ZM.Application.UseCases.Users.UpdateUser;
+using ZM.Application.UseCases.Users.GetSelf;
+using ZM.Application.UseCases.Users.UpdateSelf;
 using ZM.Common.Results;
-using ZM.Domain.Entities;
 
 namespace ZM.Api.Controllers;
 
@@ -15,35 +12,19 @@ namespace ZM.Api.Controllers;
 [ApiController]
 [Route("users")]
 [Authorize]
-public class UsersController(IDbContext _dbContext) : ApiControllerBase
+public class UsersController : ApiControllerBase
 {
-
-	/// <summary>
-	/// Получить всех пользователей.
-	/// </summary>
-	[HttpGet]
-	[AllowAnonymous]
-	public Task<User[]> GetAll()
-		=> _dbContext.Set<User>().ToArrayAsync();
-
 	/// <summary>
 	/// Обновить информацию о себе
 	/// </summary>
-	/// <param name="userCommand">string About, Guid AvatarId</param>
-	[HttpPatch("own")]
-	public Task<Result<ResultDataEmpty>> UpdateOwnProfile([FromBody] UpdateUserCommand userCommand)
-	{
-		return Sender.Send(userCommand);
-	}
+	[HttpPut("self")]
+	public Task<Result<ResultDataEmpty>> UpdateSelfAsync([FromBody] UpdateSelfUserCommand request)
+		=> Sender.Send(request);
 
-	
 	/// <summary>
 	/// Получение информации о текущем пользователе
 	/// </summary>
-	/// <returns></returns>
-	[HttpGet("own")]
-	public Task<Result<GetOwnUserResponse>> GetCurrentUser()
-	{
-		return Sender.Send(new GetOwnUserQuery());
-	}
+	[HttpGet("self")]
+	public Task<Result<GetSelfUserResponse>> GetSelfAsync()
+		=> Sender.Send(new GetSelfUserQuery());
 }

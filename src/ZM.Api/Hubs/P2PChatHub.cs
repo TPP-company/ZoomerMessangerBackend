@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using ZM.Application.Dependencies.Infrastructure.Authentication;
 using ZM.Application.Dependencies.Infrastructure.Persistence;
 using ZM.Domain.Chats;
-using ZM.Domain.Entities;
+using ZM.Domain.Users;
 
 namespace ZM.Api.Hubs;
 

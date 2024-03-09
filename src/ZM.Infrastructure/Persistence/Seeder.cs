@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System.Text;
 using ZM.Domain.Chats;
-using ZM.Domain.Entities;
+using ZM.Domain.Users;
 using ZM.Infrastructure.Authentication.Entities;
 using ZM.Infrastructure.Persistence.App;
 

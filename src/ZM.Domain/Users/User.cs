@@ -2,7 +2,7 @@
 using ZM.Domain.Chats;
 using ZM.Domain.Common;
 
-namespace ZM.Domain.Entities;
+namespace ZM.Domain.Users;
 
 /// <summary>
 /// Пользователь.

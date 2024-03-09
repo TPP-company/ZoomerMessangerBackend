@@ -61,6 +61,25 @@ internal static class EntityQuery
 	/// <exception cref="InvalidPaginationException">Неверные параметры для постраничного получения.</exception>
 	public static async Task<PaginatedResponse<TDto>> GetPaginatedResponseAsync<TEntity, TDto>(
 		this IQueryable<TEntity> source,
+		Paged options,
+		IMapper mapper,
+		CancellationToken cancellationToken = default)
+		where TEntity : Entity
+		where TDto : IMapFrom<TEntity>
+	{
+		source = ApplyPagination(source, options, out var totalCount, out var totalPages);
+
+		var list = await source.GetProjectedListAsync<TEntity, TDto>(mapper, cancellationToken: cancellationToken);
+
+		return new PaginatedResponse<TDto>(options.PageNumber, options.PageSize, totalCount, totalPages, list);
+	}
+
+	/// <summary>
+	/// Получить <see cref="PaginatedResponse{TDto}"/>.
+	/// </summary>
+	/// <exception cref="InvalidPaginationException">Неверные параметры для постраничного получения.</exception>
+	public static async Task<PaginatedResponse<TDto>> GetPaginatedResponseAsync<TEntity, TDto>(
+		this IQueryable<TEntity> source,
 		PagedAndSorted options,
 		Expression<Func<TEntity, bool>>? searchFilter,
 		IMapper mapper,
@@ -68,9 +87,11 @@ internal static class EntityQuery
 		where TEntity : Entity
 		where TDto : IMapFrom<TEntity>
 	{
-		var query = ApplyPaginated(source, options, searchFilter, out var totalCount, out var totalPages);
+		source = ApplySorting(source, options);
+		source = ApplyFiltering(source, searchFilter);
+		source = ApplyPagination(source, options, out var totalCount, out var totalPages);
 
-		var list = await query.GetProjectedListAsync<TEntity, TDto>(mapper, cancellationToken: cancellationToken);
+		var list = await source.GetProjectedListAsync<TEntity, TDto>(mapper, cancellationToken: cancellationToken);
 
 		return new PaginatedResponse<TDto>(options.PageNumber, options.PageSize, totalCount, totalPages, list);
 	}
@@ -88,17 +109,18 @@ internal static class EntityQuery
 		where TEntity : Entity
 		where TDto : IMapFrom<TEntity>
 	{
-		var query = ApplyPaginated(source, options, searchFilter, out var totalCount, out var totalPages);
+		source = ApplySorting(source, options);
+		source = ApplyFiltering(source, searchFilter);
+		source = ApplyPagination(source, options, out var totalCount, out var totalPages);
 
-		var list = await query.Select(selector).ToListAsync(cancellationToken);
+		var list = await source.Select(selector).ToListAsync(cancellationToken);
 
 		return new PaginatedResponse<TDto>(options.PageNumber, options.PageSize, totalCount, totalPages, list);
 	}
 
-	private static IQueryable<TEntity> ApplyPaginated<TEntity>(
+	private static IQueryable<TEntity> ApplyPagination<TEntity>(
 		IQueryable<TEntity> source,
-		PagedAndSorted options,
-		Expression<Func<TEntity, bool>>? searchFilter,
+		Paged options,
 		out int totalCount,
 		out int totalPages) where TEntity : Entity
 	{
@@ -108,16 +130,23 @@ internal static class EntityQuery
 			0 :
 			(int)Math.Ceiling(totalCount / (double)options.PageSize);
 
-		var query = source
+		source = source
 			.AsNoTracking()
 			.Skip((options.PageNumber - 1) * options.PageSize)
 			.Take(options.PageSize);
 
+		return source;
+	}
+
+	private static IQueryable<TEntity> ApplySorting<TEntity>(
+		IQueryable<TEntity> source,
+		ISorted options) where TEntity : Entity
+	{
 		if (!string.IsNullOrWhiteSpace(options.Sorting))
 		{
 			try
 			{
-				query = query.OrderBy(options.Sorting);
+				source = source.OrderBy(options.Sorting);
 			}
 			catch (Exception ex)
 			{
@@ -125,11 +154,18 @@ internal static class EntityQuery
 			}
 		}
 
+		return source;
+	}
+
+	private static IQueryable<TEntity> ApplyFiltering<TEntity>(
+		IQueryable<TEntity> source,
+		Expression<Func<TEntity, bool>>? searchFilter) where TEntity : Entity
+	{
 		if (searchFilter is not null)
 		{
-			query = query.Where(searchFilter);
+			source = source.Where(searchFilter);
 		}
 
-		return query;
+		return source;
 	}
 }

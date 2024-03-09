@@ -8,7 +8,7 @@ using ZM.Application.Dependencies.Infrastructure.Authentication;
 using ZM.Application.Dependencies.Infrastructure.DataAccess.Common.Queries;
 using ZM.Application.Dependencies.Infrastructure.Persistence;
 using ZM.Domain.Chats;
-using ZM.Domain.Entities;
+using ZM.Domain.Users;
 
 namespace ZM.Application.UseCases.Chats.GetP2PChatMessages;
 
