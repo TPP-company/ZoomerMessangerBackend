@@ -9,7 +9,7 @@ namespace ZM.Api.Controllers;
 /// <summary>Апи групп чатов.</summary>
 [Authorize]
 [ApiController]
-[Route("chat-groups")]
+[Route("groups")]
 public class ChatGroupsController : ChatsController
 {
 	/// <summary>Создать.</summary>
