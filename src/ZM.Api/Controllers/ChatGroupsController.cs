@@ -17,6 +17,13 @@ public class ChatGroupsController : ChatsController
 	public Task<Result<ResultDataEmpty>> CreateAsync(CreateChatGroupCommand request)
 		=> Sender.Send(request);
 
+	//TODO: передавать класс в котором будет название группового чата. Обновляем только название.
+	/// <summary>Обновить.</summary>
+	[HttpPut]
+	public Task<Result<ResultDataEmpty>> UpdateAsync()
+		=> throw new NotImplementedException();
+
+	//TODO: получаем участников без пагинации и фильтров
 	/// <summary>Получить участников.</summary>
 	/// <param name="id">Идентификатор группы.</param>
 	[HttpGet("{id:guid}/members")]
@@ -30,6 +37,7 @@ public class ChatGroupsController : ChatsController
 	public Task<Result<ResultDataEmpty>> AddMembersAsync(Guid id, IReadOnlyCollection<Guid> memberIds)
 		=> Sender.Send(new AddMembersToChatGroupCommand(id, memberIds));
 
+	//TODO: удаляем участника.
 	/// <summary>Удалить участника.</summary>
 	/// <param name="id">Идентификатор группы.</param>
 	/// <param name="memberId">Идентификатор участника.</param>
